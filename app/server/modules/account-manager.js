@@ -4,9 +4,12 @@ var MongoDB 	= require('mongodb').Db;
 var Server 		= require('mongodb').Server;
 var moment 		= require('moment');
 
-var dbPort 		= 27017;
-var dbHost 		= 'localhost';
-var dbName 		= 'node-login';
+//var dbPort 		= 27017;
+//var dbHost 		= 'localhost';
+//var dbName 		= 'node-login';
+var dbPort 		= 45097;
+var dbHost 		= 'ds045097.mongolab.com';
+var dbName 		= 'cobmedia';
 
 /* establish the database connection */
 
@@ -16,6 +19,9 @@ var db = new MongoDB(dbName, new Server(dbHost, dbPort, {auto_reconnect: true}),
 		console.log(e);
 	}	else{
 		console.log('connected to database :: ' + dbName);
+        db.authenticate('CobMedia', 'CobMedia2014', function(err, res) {
+            console.log('authenticated, db admin logged in. :: ' + dbName);
+        });
 	}
 });
 var accounts = db.collection('accounts');
