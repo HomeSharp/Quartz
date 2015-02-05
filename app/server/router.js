@@ -2,6 +2,7 @@
 var CT = require('./modules/country-list');
 var AM = require('./modules/account-manager');
 var EM = require('./modules/email-dispatcher');
+var NM = require('./modules/netatmo-manager');
 
 module.exports = function(app) {
 
@@ -179,6 +180,12 @@ module.exports = function(app) {
 	app.get('/reset', function(req, res) {
 		AM.delAllRecords(function(){
 			res.redirect('/print');	
+		});
+	});
+
+	app.get('/api/getAllTemperatures', function(req, res) {
+		NM.getAllTemperatures(function(err, temperatures) {
+			res.json(temperatures);
 		});
 	});
 	
