@@ -41,7 +41,7 @@ exports.autoLogin = function(user, pass, callback)
 
 exports.manualLogin = function(user, pass, callback)
 {
-	accounts.findOne({user:user}, function(e, o) {
+	accounts.findOne({email:user}, function(e, o) {
 		if (o == null){
 			callback('user-not-found');
 		}	else{
