@@ -48,14 +48,29 @@ module.exports = function(app) {
 	        res.redirect('/');
 	    }   else{
 			res.render('home', {
-				title : 'Control Panel',
+				title : 'home',
+				countries : CT,
+				udata : req.session.user
+			});
+	    }
+	});
+
+
+
+	app.get('/settings', function(req, res) {
+	    if (req.session.user == null){
+	// if user is not logged-in redirect back to login page //
+	        res.redirect('/');
+	    }   else{
+			res.render('settings', {
+				title : 'home',
 				countries : CT,
 				udata : req.session.user
 			});
 	    }
 	});
 	
-	app.post('/home', function(req, res){
+	app.post('/settings', function(req, res){
 		if (req.param('user') != undefined) {
 			AM.updateAccount({
 				user 		: req.param('user'),

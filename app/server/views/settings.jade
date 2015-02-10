@@ -11,9 +11,9 @@ block content
 					i.icon-lock.icon-white
 					| Sign Out
 
-		a(href='/settings') Update settings
-		|<br>
-		|<a href='#'>Log in to netatmo-account</a>
+	include account
+	include modals/alert
+	include modals/confirm
 
 block scripts
 	script(src='/vendor/jquery.min.js')
