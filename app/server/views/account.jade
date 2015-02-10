@@ -17,7 +17,7 @@ input(type='hidden', value= user._id)#userId
 			#email-cg.control-group
 				label.control-label(for='email-tf') Email
 				.controls
-					input#email-tf.input-xlarge(type='text', name='email', value= user.email)
+					input#email-tf.input-xlarge(readonly, type='text', name='email', value= user.email)
 			#clist-cg.control-group
 				label.control-label(for='country-list') Location
 				.controls
@@ -26,10 +26,7 @@ input(type='hidden', value= user._id)#userId
 							option(selected=item.name == user.country)= item.name
 			hr
 			p#sub2.subheading
-			#user-cg.control-group
-				label.control-label(for='user-tf') Username
-				.controls
-					input#user-tf.input-xlarge.disabled(type='text', name='user', value= user.user)
+			
 			#pass-cg.control-group
 				label.control-label(for='pass-tf') Password
 				.controls

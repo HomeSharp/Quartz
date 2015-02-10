@@ -65,10 +65,7 @@ AccountValidator.prototype.validateForm = function()
 	if (this.validateEmail(this.formFields[1].val()) == false) {
 		this.controlGroups[1].addClass('error'); e.push('Please Enter A Valid Email');
 	}
-	if (this.validateName(this.formFields[2].val()) == false) {
-		this.controlGroups[2].addClass('error');
-		e.push('Please Choose A Username');
-	}
+	
 	if (this.validatePassword(this.formFields[3].val()) == false) {
 		this.controlGroups[3].addClass('error');
 		e.push('Password Should Be At Least 6 Characters');
