@@ -2,9 +2,8 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background: #ffffff;
+  background: #fff;
 }
-
 #login-container {
   width: 340px;
   margin: 160px auto;
@@ -125,7 +124,6 @@ label {
 button i {
   padding-left: 8px;
 }
-
 .top-push {
-	margin-top: 80px;
+  margin-top: 80px;
 }
