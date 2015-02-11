@@ -28,9 +28,9 @@ var accounts = db.collection('accounts');
 
 /* login validation methods */
 
-exports.autoLogin = function(user, pass, callback)
+exports.autoLogin = function(email, pass, callback)
 {
-	accounts.findOne({user:user}, function(e, o) {
+	accounts.findOne({email:email}, function(e, o) {
 		if (o){
 			o.pass == pass ? callback(o) : callback(null);
 		}	else{
@@ -39,9 +39,9 @@ exports.autoLogin = function(user, pass, callback)
 	});
 }
 
-exports.manualLogin = function(user, pass, callback)
+exports.manualLogin = function(email, pass, callback)
 {
-	accounts.findOne({email:user}, function(e, o) {
+	accounts.findOne({email:email}, function(e, o) {
 		if (o == null){
 			callback('user-not-found');
 		}	else{
@@ -60,7 +60,7 @@ exports.manualLogin = function(user, pass, callback)
 
 exports.addNewAccount = function(newData, callback)
 {
-	accounts.findOne({user:newData.user}, function(e, o) {
+	accounts.findOne({email:newData.email}, function(e, o) {
 		if (o){
 			callback('username-taken');
 		}	else{
