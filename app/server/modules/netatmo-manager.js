@@ -1,65 +1,43 @@
-
-var crypto 		= require('crypto');
-var MongoDB 	= require('mongodb').Db;
-var Server 		= require('mongodb').Server;
-var moment 		= require('moment');
-
-//var dbPort 		= 27017;
-//var dbHost 		= 'localhost';
-//var dbName 		= 'node-login';
-var dbPort 		= 45097;
-var dbHost 		= 'ds045097.mongolab.com';
-var dbName 		= 'cobmedia';
-
-/* establish the database connection */
-
-var db = new MongoDB(dbName, new Server(dbHost, dbPort, {auto_reconnect: true}), {w: 1});
-	db.open(function(e, d){
-	if (e) {
-		console.log(e);
-	}	else{
-		console.log('connected to database :: ' + dbName);
-        db.authenticate('CobMedia', 'CobMedia2014', function(err, res) {
-            console.log('authenticated, db admin logged in. :: ' + dbName);
-        });
-	}
-});
-var temperatureValues = db.collection('netatmoData');
+// We need this to build our post string
+var querystring = require('querystring');
+var http = require('http');
 
 
-exports.getAllTemperatures = function(callback)
+exports.RequestAuthToken = function(code, callback) 
 {
-	temperatureValues.find().toArray(
-		function(e, res) {
-		if (e) callback(e)
-		else callback(null, res)
-	});
-};
+  // Build the post string from an object
+  var post_data = querystring.stringify({
+  		'grant_type': 'authorization_code',
+	    'client_id': '54c64eaa485a8812863eadfd',
+	    'client_secret': 'RnBuzxADbpdH1TxxnSzASBsW6mQdv',
+	    'code': code,
+	    'redirect_uri': 'http://127.0.0.1:8080/brand/netatmo',
+	    'scope': 'read_station read_thermostat write_thermostat'
+  });
 
+  // An object of options to indicate where to post to
+  var post_options = {
+      host: 'api.netatmo.net',
+      port: '80',
+      path: '/oauth2/token',
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+          'Content-Length': post_data.length
+      }
+  };
 
-/* auxiliary methods */
+  // Set up the request
+  var post_req = http.request(post_options, function(res) {
+      res.setEncoding('utf8');
+      res.on('data', function (chunk) {
+          console.log('Response: ' + chunk);
+          callback(chunk);
+      });
+  });
 
-var getObjectId = function(id)
-{
-	return accounts.db.bson_serializer.ObjectID.createFromHexString(id)
-}
+  // post the data
+  post_req.write(post_data);
+  post_req.end();
 
-var findById = function(id, callback)
-{
-	accounts.findOne({_id: getObjectId(id)},
-		function(e, res) {
-		if (e) callback(e)
-		else callback(null, res)
-	});
-};
-
-
-var findByMultipleFields = function(a, callback)
-{
-// this takes an array of name/val pairs to search against {fieldName : 'value'} //
-	accounts.find( { $or : a } ).toArray(
-		function(e, results) {
-		if (e) callback(e)
-		else callback(null, results)
-	});
 }

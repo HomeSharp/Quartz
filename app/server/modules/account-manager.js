@@ -150,6 +150,20 @@ exports.delAllRecords = function(callback)
 	accounts.remove({}, callback); // reset accounts collection for testing //
 }
 
+
+exports.saveCredentials = function(response_chunk) 
+{
+	//Save netatmo credentials to mongoDb
+
+}
+
+
+exports.CheckUserNetatmoToken = function() 
+{
+	//Check at mongoDb if user has got any netatno credentials
+	
+}
+
 /* private encryption & validation methods */
 
 var generateSalt = function()
@@ -206,3 +220,5 @@ var findByMultipleFields = function(a, callback)
 		else callback(null, results)
 	});
 }
+
+

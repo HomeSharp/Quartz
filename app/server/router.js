@@ -215,46 +215,64 @@ module.exports = function(app) {
 
 	app.get('/brand/netatmo', function(req, res) {
 
-		var oldState = req.session.stateCode;
+		//Check if user owns an netatmo-acesstoken allready and is not outdated
+
+
+		//If token isoutdated - get new accessotken with refreshtoken.
+
+		if(AM.CheckUserNetatmoToken()) {
+
+
+		}
+
+
+
 
 		//Check url parameters
 		var url_parts = url.parse(req.url, true);
 		var query = url_parts.query;
+		var oldState = req.session.state_token;
 
-		if (query.state != oldState) {
+		//Generate some better csrf-token here
+		var state_token = req.csrfToken();
 
-			//Denied
-			console.log("State token doesnt match");
+		//Saving csrf-token to session
+		req.session.state_token = state_token; 
 
-		} else if(query.error === 'invalid_client') {
-		
-			//Invalid client
-			console.log("Invalid Client");
-		
-		} else if(query.error === 'access_denied') {
+		//Does url come with query
+		if(Object.keys(query).length !== 0) {
 
-			//Access denied
-			console.log("Access denied");
-		
-		} else {
-
-			//Valid request
-
-			var code = query.code;
-			console.log(code);
 			
-			//Make access-token request
+			if (query.state != oldState) { 
+
+				//Denied
+				console.log("State token doesnt match");
+
+			} else if(query.error === 'invalid_client') {
 			
+				//Invalid client
+				console.log("Invalid Client");
+			
+			} else if(query.error === 'access_denied') {
+
+				//Access denied
+				console.log("Access denied");
+			
+			} else {
+
+				//Valid request
+				//Make access-token request
+
+				NM.RequestAuthToken(query.code, function(response_chunk) {
+					console.log(response_chunk);
+					response_chunk = JSON.parse(response_chunk);
+					AM.saveCredentials(response_chunk);
+				});
+			}
 
 		}
 
-		//Generate some better csrf-token here
-		var stateCode = '34343434';
-
-		//Saving csrf-token to session
-		req.session.stateCode = stateCode; 
-
-		res.render('netatmo', {  title: 'Netatmo devices', stateCode: stateCode });
+		res.render('netatmo', {  title: 'Netatmo devices', state_token: state_token });
 
 	});
 

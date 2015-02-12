@@ -6,8 +6,26 @@
 **/
 
 var express = require('express');
+var session = require('express-session')
 var http = require('http');
+var csrf = require('csurf');
 var app = express();
+
+var sess = {
+  secret: 'keyboard cat',
+  cookie: {}
+}
+ 
+if (app.get('env') === 'production') {
+  app.set('trust proxy', 1) // trust first proxy 
+  sess.cookie.secure = true // serve secure cookies 
+}
+ 
+app.use(session(sess));
+
+
+app.use(csrf());
+
 
 app.configure(function(){
 	app.set('port', 8080);
