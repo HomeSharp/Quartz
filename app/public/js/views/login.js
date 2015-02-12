@@ -1,6 +1,6 @@
 
 $(document).ready(function(){
-	
+
 	var lv = new LoginValidator();
 	var lc = new LoginController();
 
@@ -20,15 +20,15 @@ $(document).ready(function(){
 			if (status == 'success') window.location.href = '/home';
 		},
 		error : function(e){
-            lv.showLoginError('Login Failure', 'Please check your username and/or password');
+            lv.showLoginError('Login Failure', 'Please check your email and/or password');
 		}
-	}); 
+	});
 	$('#user-tf').focus();
-	
+
 // login retrieval form via email //
-	
+
 	var ev = new EmailValidator();
-	
+
 	$('#get-credentials-form').ajaxForm({
 		url: '/lost-password',
 		beforeSubmit : function(formData, jqForm, options){
@@ -47,5 +47,5 @@ $(document).ready(function(){
 			ev.showEmailAlert("Sorry. There was a problem, please try again later.");
 		}
 	});
-	
+
 })
