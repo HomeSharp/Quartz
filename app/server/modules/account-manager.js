@@ -4,9 +4,6 @@ var MongoDB 	= require('mongodb').Db;
 var Server 		= require('mongodb').Server;
 var moment 		= require('moment');
 
-//var dbPort 		= 27017;
-//var dbHost 		= 'localhost';
-//var dbName 		= 'node-login';
 var dbPort 		= 45097;
 var dbHost 		= 'ds045097.mongolab.com';
 var dbName 		= 'cobmedia';

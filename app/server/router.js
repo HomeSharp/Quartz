@@ -227,24 +227,24 @@ module.exports = function(app) {
 			console.log("State token doesnt match");
 
 		} else if(query.error === 'invalid_client') {
-		
+
 			//Invalid client
 			console.log("Invalid Client");
-		
+
 		} else if(query.error === 'access_denied') {
 
 			//Access denied
 			console.log("Access denied");
-		
+
 		} else {
 
 			//Valid request
 
 			var code = query.code;
 			console.log(code);
-			
+
 			//Make access-token request
-			
+
 
 		}
 
@@ -252,7 +252,7 @@ module.exports = function(app) {
 		var stateCode = '34343434';
 
 		//Saving csrf-token to session
-		req.session.stateCode = stateCode; 
+		req.session.stateCode = stateCode;
 
 		res.render('netatmo', {  title: 'Netatmo devices', stateCode: stateCode });
 
