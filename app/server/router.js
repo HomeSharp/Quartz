@@ -4,6 +4,9 @@ var AM = require('./modules/account-manager');
 var EM = require('./modules/email-dispatcher');
 var NM = require('./modules/netatmo-manager');
 
+var url = require('url');
+
+
 module.exports = function(app) {
 
 // main login page //
@@ -206,10 +209,53 @@ module.exports = function(app) {
 		});
 	});
 
+
+
 	// For connecting and handling of Netatmo apps
 
 	app.get('/brand/netatmo', function(req, res) {
-		res.render('netatmo', {  title: 'Netatmo devices' });
+
+		var oldState = req.session.stateCode;
+
+		//Check url parameters
+		var url_parts = url.parse(req.url, true);
+		var query = url_parts.query;
+
+		if (query.state != oldState) {
+
+			//Denied
+			console.log("State token doesnt match");
+
+		} else if(query.error === 'invalid_client') {
+		
+			//Invalid client
+			console.log("Invalid Client");
+		
+		} else if(query.error === 'access_denied') {
+
+			//Access denied
+			console.log("Access denied");
+		
+		} else {
+
+			//Valid request
+
+			var code = query.code;
+			console.log(code);
+			
+			//Make access-token request
+			
+
+		}
+
+		//Generate some better csrf-token here
+		var stateCode = '34343434';
+
+		//Saving csrf-token to session
+		req.session.stateCode = stateCode; 
+
+		res.render('netatmo', {  title: 'Netatmo devices', stateCode: stateCode });
+
 	});
 
 	app.get('*', function(req, res) { res.render('404', { title: 'Page Not Found'}); });
