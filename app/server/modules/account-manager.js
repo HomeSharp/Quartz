@@ -148,19 +148,23 @@ exports.delAllRecords = function(callback)
 }
 
 
-exports.saveCredentials = function(response_chunk) 
+exports.saveCredentials = function(response_chunk, callback)
 {
 	//Save netatmo credentials to mongoDb
+	accounts.findOne({email:"test3@test.com"}, function(e, o){
+		o.NetatmoAccessToken = response_chunk.access_token;
 
-	
-
+		accounts.save(o, {safe: true}, function(err) {
+			console.log("Access token saved to database.")
+		});
+	});
 }
 
 
-exports.CheckUserNetatmoToken = function() 
+exports.CheckUserNetatmoToken = function()
 {
 	//Check at mongoDb if user has got any netatno credentials
-	
+
 }
 
 /* private encryption & validation methods */
@@ -219,5 +223,3 @@ var findByMultipleFields = function(a, callback)
 		else callback(null, results)
 	});
 }
-
-

@@ -3,7 +3,7 @@ var querystring = require('querystring');
 var http = require('http');
 
 
-exports.RequestAuthToken = function(code, callback) 
+exports.RequestAuthToken = function(code, callback)
 {
   // Build the post string from an object
   var post_data = querystring.stringify({
@@ -31,7 +31,7 @@ exports.RequestAuthToken = function(code, callback)
   var post_req = http.request(post_options, function(res) {
       res.setEncoding('utf8');
       res.on('data', function (chunk) {
-          console.log('Response: ' + chunk);
+          //console.log('Response: ' + chunk);
           callback(chunk);
       });
   });

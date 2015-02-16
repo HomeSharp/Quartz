@@ -36,7 +36,7 @@ module.exports = function(app) {
 	});
 
 	app.post('/', function(req, res){
-		AM.manualLogin(req.param('user'), req.param('pass'), function(e, o){
+		AM.manualLogin(req.param('email'), req.param('pass'), function(e, o){
 			if (!o){
 				res.send(e, 400);
 			}	else{
@@ -62,6 +62,7 @@ module.exports = function(app) {
 				countries : CT,
 				udata : req.session.user,
 			});
+			console.log(req.session.user.email);
 	    }
 	});
 
