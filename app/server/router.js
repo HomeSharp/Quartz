@@ -58,7 +58,8 @@ module.exports = function(app) {
 			res.render('home', {
 				title : 'home',
 				countries : CT,
-				udata : req.session.user
+				udata : req.session.user,
+				csrfToken: req.csrfToken()
 			});
 	    }
 	});
@@ -73,7 +74,8 @@ module.exports = function(app) {
 			res.render('settings', {
 				title : 'home',
 				countries : CT,
-				udata : req.session.user
+				udata : req.session.user,
+				csrfToken: req.csrfToken()
 			});
 	    }
 	});
@@ -214,8 +216,6 @@ module.exports = function(app) {
 		});
 	});
 
-
-
 	// For connecting and handling of Netatmo apps
 
 	app.get('/brand/netatmo', function(req, res) {
@@ -236,8 +236,8 @@ module.exports = function(app) {
 
 
 		//Does url come with query
-		if(Object.keys(query).length !== 0) {			
-			if (query.state != oldState) { 
+		if(Object.keys(query).length !== 0) {
+			if (query.state != oldState) {
 				//Denied
 				console.log(query.state);
 				//console.log(oldState);
@@ -273,7 +273,7 @@ module.exports = function(app) {
 		var state_token = req.csrfToken();
 
 		//Saving csrf-token to session
-		req.session.state_token = state_token; 
+		req.session.state_token = state_token;
 
 		//console.log(req.session.state_token);
 

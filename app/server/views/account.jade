@@ -6,6 +6,7 @@ input(type='hidden', value= user._id)#userId
 
 #account-form-container
 	form( method="post")#account-form.form-horizontal.well.span6
+	input(type="hidden", name="_csrf", value="#{csrfToken}")
 		h1
 		p#sub1.subheading Please tell us a little about yourself.
 		hr
@@ -26,7 +27,7 @@ input(type='hidden', value= user._id)#userId
 							option(selected=item.name == user.country)= item.name
 			hr
 			p#sub2.subheading
-			
+
 			#pass-cg.control-group
 				label.control-label(for='pass-tf') Password
 				.controls

@@ -11,20 +11,10 @@ var http = require('http');
 var csrf = require('csurf');
 var app = express();
 
-var sess = {
-  secret: 'keyboard cat',
-  cookie: {}
-}
- 
 if (app.get('env') === 'production') {
-  app.set('trust proxy', 1) // trust first proxy 
-  sess.cookie.secure = true // serve secure cookies 
+  app.set('trust proxy', 1) // trust first proxy
+  sess.cookie.secure = true // serve secure cookies
 }
- 
-app.use(session(sess));
-
-app.use(csrf());
-
 
 app.configure(function(){
 	app.set('port', 8080);
@@ -39,6 +29,12 @@ app.configure(function(){
 	app.use(express.methodOverride());
 	app.use(require('stylus').middleware({ src: __dirname + '/app/public' }));
 	app.use(express.static(__dirname + '/app/public'));
+  app.use(csrf());
+
+  app.use(function(req, res, next){
+    res.locals.token = req.session._csrf;
+    next();
+  });
 });
 
 app.configure('development', function(){
