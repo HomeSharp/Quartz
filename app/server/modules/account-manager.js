@@ -148,10 +148,10 @@ exports.delAllRecords = function(callback)
 }
 
 
-exports.saveCredentials = function(response_chunk, email2)
+exports.saveCredentials = function(response_chunk, email)
 {
 	//Save netatmo credentials to mongoDb
-	accounts.findOne({email:email2}, function(e, o){
+	accounts.findOne({email:email}, function(e, o){
 		o.NetatmoAccessToken = response_chunk.access_token;
 
 		accounts.save(o, {safe: true}, function(err) {
@@ -161,10 +161,18 @@ exports.saveCredentials = function(response_chunk, email2)
 }
 
 
-exports.CheckUserNetatmoToken = function()
+exports.CheckUserNetatmoToken = function(email)
 {
 	//Check at mongoDb if user has got any netatno credentials
-
+	accounts.findOne({email:email}, function(e, o) {
+		if (o.NetatmoAccessToken != null){
+			console.log('Token exists');
+		}
+		else
+		{
+			console.log('No token exists');
+		}
+	});
 }
 
 /* private encryption & validation methods */

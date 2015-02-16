@@ -224,8 +224,9 @@ module.exports = function(app) {
 		//Check if user owns an netatmo-acesstoken allready and is not outdated
 		//If token is outdated - get new accessotken with refreshtoken.
 
-		if(AM.CheckUserNetatmoToken()) {
-
+		if(AM.CheckUserNetatmoToken(req.session.user.email)) {
+			res.redirect('/print');
+			console.log("was here");
 		}
 
 		//Check url parameters
