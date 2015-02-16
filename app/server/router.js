@@ -263,7 +263,7 @@ module.exports = function(app) {
 				NM.RequestAuthToken(query.code, function(response_chunk) {
 					console.log(response_chunk);
 					response_chunk = JSON.parse(response_chunk);
-					AM.saveCredentials(response_chunk);
+					AM.saveCredentials(response_chunk, req.session.user.email);
 				});
 			}
 		}

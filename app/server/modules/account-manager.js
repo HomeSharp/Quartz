@@ -148,10 +148,10 @@ exports.delAllRecords = function(callback)
 }
 
 
-exports.saveCredentials = function(response_chunk, callback)
+exports.saveCredentials = function(response_chunk, email2)
 {
 	//Save netatmo credentials to mongoDb
-	accounts.findOne({email:"test3@test.com"}, function(e, o){
+	accounts.findOne({email:email2}, function(e, o){
 		o.NetatmoAccessToken = response_chunk.access_token;
 
 		accounts.save(o, {safe: true}, function(err) {
