@@ -148,7 +148,7 @@ exports.delAllRecords = function(callback)
 }
 
 
-exports.saveCredentials = function(response_chunk, email)
+exports.saveCredentials = function(response_chunk, email, callback)
 {
 	//Save netatmo credentials to mongoDb
 	accounts.findOne({email:email}, function(e, o){
@@ -157,22 +157,25 @@ exports.saveCredentials = function(response_chunk, email)
 		o.NetatmoAccessTokenTime = Date.now() / 1000 | 0 + response_chunk.expires_in;
 
 		accounts.save(o, {safe: true}, function(err) {
-			console.log("Access token saved to database.")
+			console.log("Access token saved to database.");
+			callback();
 		});
 	});
 }
 
 
-exports.CheckUserNetatmoToken = function(email)
+exports.CheckUserNetatmoToken = function(email, callback)
 {
 	//Check at mongoDb if user has got any netatno credentials
 	accounts.findOne({email:email}, function(e, o) {
 		if (o.NetatmoAccessToken != null){
 			console.log('Token exists');
+			callback(true);
 		}
 		else
 		{
 			console.log('No token exists');
+			callback(false);
 		}
 	});
 }

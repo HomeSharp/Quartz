@@ -208,7 +208,7 @@ module.exports = function(app) {
 		});
 	});
 
-	// HENKES TEST
+// HENKES TEST //
 
 	app.get('/api/getAllTemperatures', function(req, res) {
 		NM.getAllTemperatures(function(err, temperatures) {
@@ -216,17 +216,9 @@ module.exports = function(app) {
 		});
 	});
 
-	// For connecting and handling of Netatmo apps
+// For connecting and handling of Netatmo apps //
 
 	app.get('/brand/netatmo', function(req, res) {
-
-		//Check if user owns an netatmo-acesstoken allready and is not outdated
-		//If token is outdated - get new accessotken with refreshtoken.
-
-		if(AM.CheckUserNetatmoToken(req.session.user.email)) {
-			res.redirect('/print');
-			console.log("was here");
-		}
 
 		//Check url parameters
 		var url_parts = url.parse(req.url, true);
@@ -246,32 +238,45 @@ module.exports = function(app) {
 		//Saving token to session
 		req.session.csrf_token = csrf_token;
 
-		//Does url come with query
-		if(Object.keys(query).length != 0) {
-			if (query.state !== oldState) {
-				//Denied
-				console.log("State token doesnt match");
-			} else if(query.error === 'invalid_client') {
-				//Invalid client
-				console.log("Invalid Client");
-			} else if(query.error === 'access_denied') {
-				//Access denied
-				console.log("Access denied");
-			} else {
-				//Valid request
-				//Make access-token request
-				NM.RequestAuthToken(query.code, function(response_chunk) {
-					console.log(response_chunk);
-					response_chunk = JSON.parse(response_chunk);
-					AM.saveCredentials(response_chunk, req.session.user.email);
-				});
+		//Check if user owns an netatmo-acesstoken allready and is not outdated
+		//If token is outdated - get new accessotken with refreshtoken.
+		AM.CheckUserNetatmoToken(req.session.user.email, function(o) {
+			if (o == true)
+			{
+				res.render('netatmo', {  title: 'Connect to Netatmo', state_token: csrf_token, NetatmoConnected: true });
 			}
-		}
+			else
+			{
+				//Does url come with query
+				if(Object.keys(query).length != 0) {
+					if (query.state !== oldState) {
+						//Denied
+						console.log("State token doesnt match");
+					} else if(query.error === 'invalid_client') {
+						//Invalid client
+						console.log("Invalid Client");
+					} else if(query.error === 'access_denied') {
+						//Access denied
+						console.log("Access denied");
+					} else {
+						//Valid request
+						//Make access-token request
+						NM.RequestAuthToken(query.code, function(response_chunk) {
+							console.log(response_chunk);
+							response_chunk = JSON.parse(response_chunk);
+							AM.saveCredentials(response_chunk, req.session.user.email, function() {
 
-		res.render('netatmo', {  title: 'Netatmo devices', state_token: csrf_token });
+								// TODO present the new message directly
+								console.log("Added");
+							});
+						});
+					}
+				}
 
+				res.render('netatmo', {  title: 'Connect to Netatmo', state_token: csrf_token, NetatmoConnected: false });
+			}
+		});
 	});
 
 	app.get('*', function(req, res) { res.render('404', { title: 'Page Not Found'}); });
-
 };
