@@ -152,6 +152,8 @@ exports.saveCredentials = function(response_chunk)
 {
 	//Save netatmo credentials to mongoDb
 
+	
+
 }
 
 

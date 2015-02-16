@@ -21,7 +21,7 @@ module.exports = function(app) {
 
 	// check if the user's credentials are saved in a cookie //
 		if (req.cookies.user == undefined || req.cookies.pass == undefined){
-			res.render('login', { title: 'Hello - Please Login To Your Home# Account'/*, csrfToken: req.csrfToken() */});
+			res.render('login', { title: 'Hello - Please Login To Your Home# Account'});
 		}	else{
 	// attempt automatic login //
 			AM.autoLogin(req.cookies.user, req.cookies.pass, function(o){
@@ -29,7 +29,7 @@ module.exports = function(app) {
 				    req.session.user = o;
 					res.redirect('/home');
 				}	else{
-					res.render('login', { title: 'Hello - Please Login To Your Home# Account'/*, csrfToken: req.csrfToken() */});
+					res.render('login', { title: 'Hello - Please Login To Your Home# Account'});
 				}
 			});
 		}
@@ -61,7 +61,6 @@ module.exports = function(app) {
 				title : 'home',
 				countries : CT,
 				udata : req.session.user,
-				/*csrfToken: req.csrfToken()*/
 			});
 	    }
 	});
@@ -77,7 +76,6 @@ module.exports = function(app) {
 				title : 'home',
 				countries : CT,
 				udata : req.session.user,
-				/*csrfToken: req.csrfToken()*/
 			});
 	    }
 	});
@@ -113,7 +111,7 @@ module.exports = function(app) {
 // creating new accounts //
 
 	app.get('/signup', function(req, res) {
-		res.render('signup', {  title: 'Signup', countries : CT/*, csrfToken: req.csrfToken() */});
+		res.render('signup', {  title: 'Signup', countries : CT});
 	});
 
 	app.post('/signup', function(req, res){
@@ -234,14 +232,17 @@ module.exports = function(app) {
 		var query = url_parts.query;
 		var oldState = req.session.csrf_token;
 
+		//Function for generating csrf token
 		function randomValueHex (len) {
 		    return crypto.randomBytes(Math.ceil(len/2))
 		        .toString('hex') // convert to hexadecimal format
 		        .slice(0,len);   // return required number of characters
 		}
 
+		//Generating csrf token
 		var csrf_token = randomValueHex(60);
 
+		//Saving token to session
 		req.session.csrf_token = csrf_token;
 
 		//Does url come with query
