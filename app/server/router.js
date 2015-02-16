@@ -7,14 +7,19 @@ var NM = require('./modules/netatmo-manager');
 var url = require('url');
 
 
+
+
+
+
 module.exports = function(app) {
 
 // main login page //
 
 	app.get('/', function(req, res){
+
 	// check if the user's credentials are saved in a cookie //
 		if (req.cookies.user == undefined || req.cookies.pass == undefined){
-			res.render('login', { title: 'Hello - Please Login To Your Home# Account' });
+			res.render('login', { title: 'Hello - Please Login To Your Home# Account', csrfToken: req.csrfToken() });
 		}	else{
 	// attempt automatic login //
 			AM.autoLogin(req.cookies.user, req.cookies.pass, function(o){
@@ -22,7 +27,7 @@ module.exports = function(app) {
 				    req.session.user = o;
 					res.redirect('/home');
 				}	else{
-					res.render('login', { title: 'Hello - Please Login To Your Home# Account' });
+					res.render('login', { title: 'Hello - Please Login To Your Home# Account', csrfToken: req.csrfToken() });
 				}
 			});
 		}
@@ -104,7 +109,7 @@ module.exports = function(app) {
 // creating new accounts //
 
 	app.get('/signup', function(req, res) {
-		res.render('signup', {  title: 'Signup', countries : CT });
+		res.render('signup', {  title: 'Signup', countries : CT, csrfToken: req.csrfToken() });
 	});
 
 	app.post('/signup', function(req, res){
@@ -113,7 +118,7 @@ module.exports = function(app) {
 			email 	: req.param('email'),
 			user 	: req.param('user'),
 			pass	: req.param('pass'),
-			country : req.param('country')
+			country : req.param('country'),
 		}, function(e){
 			if (e){
 				res.send(e, 400);
@@ -227,17 +232,25 @@ module.exports = function(app) {
 		var query = url_parts.query;
 		var oldState = req.session.state_token;
 
-		//Generate some better csrf-token here
-		var state_token = req.csrfToken();
+		console.log(req.session);
 
-		//Saving csrf-token to session
-		req.session.state_token = state_token; 
 
 		//Does url come with query
 		if(Object.keys(query).length !== 0) {			
 			if (query.state != oldState) { 
 				//Denied
+				console.log(query.state);
+				//console.log(oldState);
+
 				console.log("State token doesnt match");
+
+
+				NM.RequestAuthToken(query.code, function(response_chunk) {
+					console.log(response_chunk);
+					response_chunk = JSON.parse(response_chunk);
+					AM.saveCredentials(response_chunk);
+				});
+
 			} else if(query.error === 'invalid_client') {
 				//Invalid client
 				console.log("Invalid Client");
@@ -254,6 +267,15 @@ module.exports = function(app) {
 				});
 			}
 		}
+
+
+		//Generate some better csrf-token here
+		var state_token = req.csrfToken();
+
+		//Saving csrf-token to session
+		req.session.state_token = state_token; 
+
+		//console.log(req.session.state_token);
 
 		res.render('netatmo', {  title: 'Netatmo devices', state_token: state_token });
 

@@ -23,7 +23,6 @@ if (app.get('env') === 'production') {
  
 app.use(session(sess));
 
-
 app.use(csrf());
 
 
