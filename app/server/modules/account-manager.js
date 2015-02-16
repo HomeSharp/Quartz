@@ -153,6 +153,8 @@ exports.saveCredentials = function(response_chunk, email)
 	//Save netatmo credentials to mongoDb
 	accounts.findOne({email:email}, function(e, o){
 		o.NetatmoAccessToken = response_chunk.access_token;
+		o.NetatmoRefreshToken = response_chunk.refresh_token;
+		o.NetatmoAccessTokenTime = Date.now() / 1000 | 0 + response_chunk.expires_in;
 
 		accounts.save(o, {safe: true}, function(err) {
 			console.log("Access token saved to database.")
