@@ -169,8 +169,16 @@ exports.CheckUserNetatmoToken = function(email, callback)
 	//Check at mongoDb if user has got any netatno credentials
 	accounts.findOne({email:email}, function(e, o) {
 		if (o.NetatmoAccessToken != null){
-			console.log('Token exists');
-			callback(true);
+			if(o.NetatmoAccessTokenTime < Date.now() / 1000 | 0)
+			{
+				console.log('Token is old, needs refresh');
+				callback(false);
+			}
+			else
+			{
+				console.log('Token exists and is valid');
+				callback(true);
+			}
 		}
 		else
 		{
