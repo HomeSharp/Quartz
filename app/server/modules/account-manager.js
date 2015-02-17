@@ -168,7 +168,7 @@ exports.CheckUserNetatmoToken = function(email, callback)
 {
 	//Check at mongoDb if user has got any netatno credentials
 	accounts.findOne({email:email}, function(e, o) {
-		if (o.NetatmoAccessToken != null){
+		if (o.NetatmoAccessToken != null && o.NetatmoAccessToken != ""){
 			if(o.NetatmoAccessTokenTime <= new Date().getTime() / 1000)
 			{
 				console.log('Token is old, needs refresh');
@@ -184,6 +184,21 @@ exports.CheckUserNetatmoToken = function(email, callback)
 		{
 			console.log('No token exists');
 			callback(false);
+		}
+	});
+}
+
+exports.removeNetatmoAccessToken = function(email, callback)
+{
+	accounts.findOne({email:email}, function(e, o){
+		if (e){
+			callback(e, null);
+			console.log(email);
+		}	else{
+						o.NetatmoAccessToken = "";
+						o.NetatmoRefreshToken = "";
+						o.NetatmoAccessTokenTime = "";
+						accounts.save(o, {safe: true}, callback);
 		}
 	});
 }

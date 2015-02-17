@@ -62,6 +62,7 @@ module.exports = function(app) {
 				countries : CT,
 				udata : req.session.user,
 			});
+			console.log(req.session.user)
 	    }
 	});
 
@@ -276,17 +277,36 @@ module.exports = function(app) {
 							console.log(response_chunk);
 							response_chunk = JSON.parse(response_chunk);
 							AM.saveCredentials(response_chunk, req.session.user.email, function() {
-
-								// TODO present the new message directly
-								console.log("Added");
+								res.render('netatmo', {  title: 'Connect to Netatmo', state_token: csrf_token, NetatmoConnected: true });
 							});
 						});
 					}
 				}
+				else
+				{
+					res.render('netatmo', {  title: 'Connect to Netatmo', state_token: csrf_token, NetatmoConnected: false });
+				}
 
-				res.render('netatmo', {  title: 'Connect to Netatmo', state_token: csrf_token, NetatmoConnected: false });
+				//res.render('netatmo', {  title: 'Connect to Netatmo', state_token: csrf_token, NetatmoConnected: false });
 			}
 		});
+	});
+
+	app.post('/brand/netatmo', function(req, res){
+
+		//if (req.param('unlink') == true) {
+			console.log("hej");
+			AM.removeNetatmoAccessToken(req.session.user.email, function(e, o){
+				if (e){
+					res.send('error-updating-account', 400);
+				}	else{
+					req.session.user.NetatmoAccessToken = "";
+					req.session.user.NetatmoRefreshToken = "";
+					req.session.user.NetatmoAccessTokenTime = "";
+					res.send('ok', 200);
+				}
+			});
+		//}
 	});
 
 	app.get('*', function(req, res) { res.render('404', { title: 'Page Not Found'}); });

@@ -15,6 +15,8 @@ block content
 			h1 Home# - Netatmo
 			if NetatmoConnected == true
 				p You have authenticated with success, your Netatmo devices will show up here soon.
+				p
+					button#btn-unlinkNetatmo.btn.btn-primary Unlink account
 			else
 				p There are currently no Netatmo-account synced with Home#,&nbsp;
 					a(href='https://api.netatmo.net/oauth2/authorize?client_id=54c64eaa485a8812863eadfd&redirect_uri=http://127.0.0.1:8080/brand/netatmo&scope=read_station%20read_thermostat%20write_thermostat&state=#{state_token}') sync one now?
