@@ -62,7 +62,6 @@ module.exports = function(app) {
 				countries : CT,
 				udata : req.session.user,
 			});
-			console.log(req.session.user)
 	    }
 	});
 
