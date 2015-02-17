@@ -238,11 +238,22 @@ module.exports = function(app) {
 		//Saving token to session
 		req.session.csrf_token = csrf_token;
 
-		//Check if user owns an netatmo-acesstoken allready and is not outdated
-		//If token is outdated - get new accessotken with refreshtoken.
+		// Check if user owns an netatmo-acesstoken allready and is not outdated
 		AM.CheckUserNetatmoToken(req.session.user.email, function(o) {
 			if (o == true)
 			{
+				res.render('netatmo', {  title: 'Connect to Netatmo', state_token: csrf_token, NetatmoConnected: true });
+			}
+			// If the token is outdated, a refresh will be done
+			else if (o == "old")
+			{
+				NM.RequestRefreshAuthToken(req.session.user.NetatmoRefreshToken, function(response_chunk) {
+					console.log(response_chunk);
+					response_chunk = JSON.parse(response_chunk);
+					AM.saveCredentials(response_chunk, req.session.user.email, function() {
+					});
+				});
+
 				res.render('netatmo', {  title: 'Connect to Netatmo', state_token: csrf_token, NetatmoConnected: true });
 			}
 			else

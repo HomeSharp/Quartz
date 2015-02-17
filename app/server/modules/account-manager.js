@@ -172,7 +172,7 @@ exports.CheckUserNetatmoToken = function(email, callback)
 			if(o.NetatmoAccessTokenTime <= new Date().getTime() / 1000)
 			{
 				console.log('Token is old, needs refresh');
-				callback(false);
+				callback("old");
 			}
 			else
 			{
