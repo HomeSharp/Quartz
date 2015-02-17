@@ -154,7 +154,7 @@ exports.saveCredentials = function(response_chunk, email, callback)
 	accounts.findOne({email:email}, function(e, o){
 		o.NetatmoAccessToken = response_chunk.access_token;
 		o.NetatmoRefreshToken = response_chunk.refresh_token;
-		o.NetatmoAccessTokenTime = Date.now() / 1000 | 0 + response_chunk.expires_in;
+		o.NetatmoAccessTokenTime = new Date().getTime() / 1000 + response_chunk.expires_in;
 
 		accounts.save(o, {safe: true}, function(err) {
 			console.log("Access token saved to database.");
@@ -169,7 +169,7 @@ exports.CheckUserNetatmoToken = function(email, callback)
 	//Check at mongoDb if user has got any netatno credentials
 	accounts.findOne({email:email}, function(e, o) {
 		if (o.NetatmoAccessToken != null){
-			if(o.NetatmoAccessTokenTime < Date.now() / 1000 | 0)
+			if(o.NetatmoAccessTokenTime <= new Date().getTime() / 1000)
 			{
 				console.log('Token is old, needs refresh');
 				callback(false);
