@@ -245,6 +245,9 @@ module.exports = function(app) {
 			{
 				//Make iris devicelist request
 		        IM.RequestDeviceList(access_token, function(chunk) {
+
+		        	chunk = IM.syntaxHighlight(JSON.parse(chunk));
+
 		          console.log(chunk);
 		          AM.SaveDeviceListDB(chunk);
 		        });
