@@ -177,15 +177,21 @@ exports.CheckUserNetatmoToken = function(email, callback)
 			else
 			{
 				console.log('Token exists and is valid');
-				callback(true);
+				callback(true, o.NetatmoAccessToken);
 			}
 		}
 		else
 		{
 			console.log('No token exists');
-			callback(false);
+			callback(false, null);
 		}
 	});
+}
+
+
+exports.SaveDeviceListDB = function(chunk) {
+	//Save deviceList to databse
+
 }
 
 exports.removeNetatmoAccessToken = function(email, callback)

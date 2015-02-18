@@ -3,6 +3,7 @@ var CT = require('./modules/country-list');
 var AM = require('./modules/account-manager');
 var EM = require('./modules/email-dispatcher');
 var NM = require('./modules/netatmo-manager');
+var IM = require('./modules/iris-manager');
 
 var url = require('url');
 
@@ -239,10 +240,15 @@ module.exports = function(app) {
 		req.session.csrf_token = csrf_token;
 
 		// Check if user owns an netatmo-acesstoken allready and is not outdated
-		AM.CheckUserNetatmoToken(req.session.user.email, function(o) {
+		AM.CheckUserNetatmoToken(req.session.user.email, function(o, access_token) {
 			if (o == true)
 			{
-				res.render('netatmo', {  title: 'Connect to Netatmo', state_token: csrf_token, NetatmoConnected: true });
+				//Make iris devicelist request
+		        IM.RequestDeviceList(access_token, function(chunk) {
+		          console.log(chunk);
+		          AM.SaveDeviceListDB(chunk);
+		        });
+		        res.render('netatmo', {  title: 'Connect to Netatmo', state_token: csrf_token, NetatmoConnected: true });
 			}
 			// If the token is outdated, a refresh will be done
 			else if (o == "old")
