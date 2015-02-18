@@ -38,5 +38,26 @@ requests and responses through Iris.
 
 # For developers
 
+## App structure
+
+### app/
+All the root contents, here you'll find the package.json containing the project dependencies, and also the app.js from where the app
+is initialized and run. In app.js the port from which the app is run can be changed.
+
+### app/public
+This directory contains all the publicly rendered and handled content, css, images, jQuery and such.
+
+### app/public/js
+This directory contains the public controllers and views, event-handlers, form validators, AJAX-req/res-handlers. Simply all the JS needed to be run and handled client-side.
+
+### app/server
+This directory contains the server-side code, where everything from handling database-queries to emails are handled. To be noted is that the enginge Jade is used in this project, thus all views renderer for the server side can be found here. Another important file to note is the "router.js", handling all the routes.
+
+### app/server/modules
+Modules for the server-side, all named after their specific task/tasks. "account-manager.js" for example, handles all the server-side code for creating, updating, deleting and modifying a user account. To be noted is that some functions for handling tokens for external services are handled here as well. This is also where you primarily change the database-settings.
+
+### app/server/views
+The views for client side, written in Jade.
+
 ## Suggestions for continued developement
 Coming.
