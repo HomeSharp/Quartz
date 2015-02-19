@@ -241,13 +241,13 @@ module.exports = function(app) {
 
 		// Check if user owns an netatmo-acesstoken allready and is not outdated
 		AM.CheckUserNetatmoToken(req.session.user.email, function(o, access_token) {
+
+			var access_token = "";
+
 			if (o != false)
 			{
 				if (o == true)
 				{
-
-
-
 							res.render('netatmo', {  title: 'Connect to Netatmo', state_token: csrf_token, NetatmoConnected: true });
 				}
 				// If the token is outdated, a refresh will be done
@@ -257,9 +257,7 @@ module.exports = function(app) {
 						console.log(response_chunk);
 						response_chunk = JSON.parse(response_chunk);
 
-						response_chunk = JSON.parse(response_chunk);
-
-						var access_token = response_chunk.access_token;
+						access_token = response_chunk.access_token;
 
 						AM.saveCredentials(response_chunk, req.session.user.email, function() {
 
@@ -288,11 +286,9 @@ module.exports = function(app) {
 								console.log(response_chunk);
 								response_chunk = JSON.parse(response_chunk);
 
-								var access_token = response_chunk.access_token;
+								access_token = response_chunk.access_token;
 
 								AM.saveCredentials(response_chunk, req.session.user.email, function() {
-
-
 
 									res.render('netatmo', {  title: 'Connect to Netatmo', state_token: csrf_token, NetatmoConnected: true });
 								});
@@ -303,16 +299,12 @@ module.exports = function(app) {
 			}
 
 			//Make iris devicelist request
-
-					IM.RequestDeviceList(access_token, function(chunk) {
-
-						//TODO: Create fallback checking if Iris is down or chunk is not returned in correctly
-						chunk = IM.syntaxHighlight(JSON.parse(chunk));
-
-						console.log(chunk);
-						AM.SaveDeviceListDB(chunk);
-					});
-
+			IM.RequestDeviceList(access_token, function(chunk) {
+				//TODO: Create fallback checking if Iris is down or chunk is not returned in correctly
+				chunk = IM.syntaxHighlight(JSON.parse(chunk));
+				console.log(chunk);
+				AM.SaveDeviceListDB(chunk);
+			});
 
 			}
 			else
