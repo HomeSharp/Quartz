@@ -245,6 +245,7 @@ module.exports = function(app) {
 			{
 
 				//Make iris devicelist request
+				
 		        IM.RequestDeviceList(access_token, function(chunk) {
 
 		        	//TODO: Skapa en fallback för om inte json-returneras eller om Iris ligger nere.
@@ -304,9 +305,6 @@ module.exports = function(app) {
 	});
 
 	app.post('/brand/netatmo', function(req, res){
-
-		//if (req.param('unlink') == true) {
-			console.log("hej");
 			AM.removeNetatmoAccessToken(req.session.user.email, function(e, o){
 				if (e){
 					res.send('error-updating-account', 400);
@@ -317,7 +315,6 @@ module.exports = function(app) {
 					res.send('ok', 200);
 				}
 			});
-		//}
 	});
 
 	app.get('*', function(req, res) { res.render('404', { title: 'Page Not Found'}); });
