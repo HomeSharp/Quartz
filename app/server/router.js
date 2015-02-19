@@ -243,14 +243,17 @@ module.exports = function(app) {
 		AM.CheckUserNetatmoToken(req.session.user.email, function(o, access_token) {
 			if (o == true)
 			{
+
 				//Make iris devicelist request
 		        IM.RequestDeviceList(access_token, function(chunk) {
 
+		        	//TODO: Skapa en fallback för om inte json-returneras eller om Iris ligger nere.
 		        	chunk = IM.syntaxHighlight(JSON.parse(chunk));
 
 		          console.log(chunk);
 		          AM.SaveDeviceListDB(chunk);
 		        });
+
 		        res.render('netatmo', {  title: 'Connect to Netatmo', state_token: csrf_token, NetatmoConnected: true });
 			}
 			// If the token is outdated, a refresh will be done
