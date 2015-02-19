@@ -189,11 +189,19 @@ exports.CheckUserNetatmoToken = function(email, callback)
 }
 
 
-exports.SaveDeviceListDB = function(chunk) {
+exports.SaveDeviceListDB = function(email, chunk) {
 	//Save deviceList to databse
 
+	chunk = JSON.parse(chunk);
 
+	//Save netatmo credentials to mongoDb
+	accounts.findOne({email:email}, function(e, o){
+		o.NetatmoDeviceList = chunk;
 
+		accounts.save(o, {safe: true}, function(err) {
+			console.log("Device list saved to database.");
+		});
+	});
 
 
 }
