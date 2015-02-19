@@ -246,10 +246,12 @@ module.exports = function(app) {
 
 			if (o != false)
 			{
+				// If a token exists and is fully valid
 				if (o == true)
 				{
 							res.render('netatmo', {  title: 'Connect to Netatmo', state_token: csrf_token, NetatmoConnected: true });
 				}
+
 				// If the token is outdated, a refresh will be done
 				else if (o == "old")
 				{
@@ -266,20 +268,29 @@ module.exports = function(app) {
 
 					res.render('netatmo', {  title: 'Connect to Netatmo', state_token: csrf_token, NetatmoConnected: true });
 				}
-				else
-				{
-					//Does url come with query
-					if(Object.keys(query).length != 0) {
-						if (query.state !== oldState) {
-							//Denied
-							console.log("State token doesnt match");
-						} else if(query.error === 'invalid_client') {
-							//Invalid client
-							console.log("Invalid Client");
-						} else if(query.error === 'access_denied') {
-							//Access denied
-							console.log("Access denied");
-						} else {
+
+				//Make iris devicelist request
+				IM.RequestDeviceList(access_token, function(chunk) {
+					//TODO: Create fallback checking if Iris is down or chunk is not returned in correctly
+					chunk = IM.syntaxHighlight(JSON.parse(chunk));
+					console.log(chunk);
+					AM.SaveDeviceListDB(chunk);
+				});
+			}
+			else
+			{
+				//Does url come with query
+				if(Object.keys(query).length != 0) {
+					if (query.state !== oldState) {
+						//Denied
+						console.log("State token doesnt match");
+					} else if(query.error === 'invalid_client') {
+						//Invalid client
+						console.log("Invalid Client");
+					} else if(query.error === 'access_denied') {
+						//Access denied
+						console.log("Access denied");
+					} else {
 							//Valid request
 							//Make access-token request
 							NM.RequestAuthToken(query.code, function(response_chunk) {
@@ -290,25 +301,11 @@ module.exports = function(app) {
 
 								AM.saveCredentials(response_chunk, req.session.user.email, function() {
 
-									res.render('netatmo', {  title: 'Connect to Netatmo', state_token: csrf_token, NetatmoConnected: true });
+								res.render('netatmo', {  title: 'Connect to Netatmo', state_token: csrf_token, NetatmoConnected: true });
 								});
 							});
 						}
 					}
-
-			}
-
-			//Make iris devicelist request
-			IM.RequestDeviceList(access_token, function(chunk) {
-				//TODO: Create fallback checking if Iris is down or chunk is not returned in correctly
-				chunk = IM.syntaxHighlight(JSON.parse(chunk));
-				console.log(chunk);
-				AM.SaveDeviceListDB(chunk);
-			});
-
-			}
-			else
-			{
 				res.render('netatmo', {  title: 'Connect to Netatmo', state_token: csrf_token, NetatmoConnected: false });
 			}
 		});
