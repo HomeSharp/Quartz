@@ -239,11 +239,10 @@ module.exports = function(app) {
 		//Saving token to session
 		req.session.csrf_token = csrf_token;
 
+		var access_token = "";
+
 		// Check if user owns an netatmo-acesstoken allready and is not outdated
 		AM.CheckUserNetatmoToken(req.session.user.email, function(o, access_token) {
-
-			var access_token = "";
-
 			if (o != false)
 			{
 				// If a token exists and is fully valid

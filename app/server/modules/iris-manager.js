@@ -4,7 +4,8 @@ var http = require('http');
 
 
 exports.RequestDeviceList = function(access_token, callback)
-{ 
+{
+  console.log(access_token + "hej");
   // An object of options to indicate where to post to
   var post_options = {
       host: '127.0.0.1',
