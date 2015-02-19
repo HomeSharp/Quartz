@@ -248,7 +248,7 @@ module.exports = function(app) {
 				
 		        IM.RequestDeviceList(access_token, function(chunk) {
 
-		        	//TODO: Skapa en fallback för om inte json-returneras eller om Iris ligger nere.
+		        	//TODO: Create fallback checking if Iris is down or chunk is not returned in correctly
 		        	chunk = IM.syntaxHighlight(JSON.parse(chunk));
 
 		          console.log(chunk);
@@ -263,7 +263,20 @@ module.exports = function(app) {
 				NM.RequestRefreshAuthToken(req.session.user.NetatmoRefreshToken, function(response_chunk) {
 					console.log(response_chunk);
 					response_chunk = JSON.parse(response_chunk);
+
+					response_chunk = JSON.parse(response_chunk);
+
+					var access_token = response_chunk.access_token;
+
 					AM.saveCredentials(response_chunk, req.session.user.email, function() {
+						IM.RequestDeviceList(access_token, function(chunk) {
+
+				        	//TODO: Create fallback checking if Iris is down or chunk is not returned in correctly
+				        	chunk = IM.syntaxHighlight(JSON.parse(chunk));
+
+				          console.log(chunk);
+				          AM.SaveDeviceListDB(chunk);
+				        });
 					});
 				});
 
@@ -288,7 +301,20 @@ module.exports = function(app) {
 						NM.RequestAuthToken(query.code, function(response_chunk) {
 							console.log(response_chunk);
 							response_chunk = JSON.parse(response_chunk);
+
+							var access_token = response_chunk.access_token;
+
 							AM.saveCredentials(response_chunk, req.session.user.email, function() {
+
+								IM.RequestDeviceList(access_token, function(chunk) {
+
+						        	//TODO: Create fallback checking if Iris is down or chunk is not returned in correctly
+						        	chunk = IM.syntaxHighlight(JSON.parse(chunk));
+
+						          console.log(chunk);
+						          AM.SaveDeviceListDB(chunk);
+						        });
+
 								res.render('netatmo', {  title: 'Connect to Netatmo', state_token: csrf_token, NetatmoConnected: true });
 							});
 						});

@@ -192,6 +192,10 @@ exports.CheckUserNetatmoToken = function(email, callback)
 exports.SaveDeviceListDB = function(chunk) {
 	//Save deviceList to databse
 
+
+
+
+
 }
 
 exports.removeNetatmoAccessToken = function(email, callback)
