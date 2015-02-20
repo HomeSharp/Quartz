@@ -6,7 +6,7 @@ var moment 		= require('moment');
 
 var dbPort 		= 45097;
 var dbHost 		= 'ds045097.mongolab.com';
-var dbName 		= 'cob_media_2';
+var dbName 		= 'cobmedia';
 
 /* establish the database connection */
 
