@@ -60,4 +60,4 @@ Modules for the server-side, all named after their specific task/tasks. "account
 The views for client side, written in Jade.
 
 ## Suggestions for continued developement
-Coming.
+Coming soon.
