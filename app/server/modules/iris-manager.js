@@ -21,8 +21,13 @@ exports.RequestDeviceList = function(access_token, callback)
   // Set up the request
   var get_req = http.request(post_options, function(res) {
       res.setEncoding('utf8');
+
       res.on('data', function (chunk) {
-          callback(chunk);
+          if(res.statusCode == 200) {
+            callback(chunk);
+          } else {
+            console.log("Iris didn't return device list");
+          }
       });
   });
 

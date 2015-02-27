@@ -270,7 +270,9 @@ module.exports = function(app) {
 
 				//Make iris devicelist request
 				IM.RequestDeviceList(access_token, function(chunk) {
-					//TODO: Create fallback checking if Iris is down or chunk is not returned in correctly
+					//TODO: Create fallback checking if Iris is down or chunk is not returned correctly
+
+										
 					AM.SaveDeviceListDB(req.session.user.email, chunk);
 
 					chunk = IM.syntaxHighlight(JSON.parse(chunk));
