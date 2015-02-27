@@ -318,12 +318,15 @@ module.exports = function(app) {
 		});
 		} catch (e) {
 			console.log(e);
-
-			res.clearCookie('user');
-			res.clearCookie('pass');
-			req.session.destroy(function(e){ res.send('ok', 200); });
-			res.redirect('/');
+			res.redirect('/logout');
 		}
+	});
+
+	app.get('/logout', function(req, res){
+		res.clearCookie('user');
+		res.clearCookie('pass');
+		req.session.destroy(function(e){ res.send('ok', 200); });
+		res.redirect('/');
 	});
 
 	app.post('/brand/netatmo', function(req, res){
