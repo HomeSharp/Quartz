@@ -208,6 +208,13 @@ module.exports = function(app) {
 		});
 	});
 
+	app.get('/logout', function(req, res){
+		res.clearCookie('user');
+		res.clearCookie('pass');
+		req.session.destroy(function(e){ res.send('ok', 200); });
+		res.redirect('/');
+	});
+
 // HENKES TEST //
 
 	app.get('/api/getAllTemperatures', function(req, res) {
@@ -320,13 +327,6 @@ module.exports = function(app) {
 			console.log(e);
 			res.redirect('/logout');
 		}
-	});
-
-	app.get('/logout', function(req, res){
-		res.clearCookie('user');
-		res.clearCookie('pass');
-		req.session.destroy(function(e){ res.send('ok', 200); });
-		res.redirect('/');
 	});
 
 	app.post('/brand/netatmo', function(req, res){
