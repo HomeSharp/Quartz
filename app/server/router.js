@@ -67,7 +67,6 @@ module.exports = function(app) {
 	});
 
 
-
 	app.get('/settings', function(req, res) {
 	    if (req.session.user == null){
 	// if user is not logged-in redirect back to login page //
@@ -241,8 +240,12 @@ module.exports = function(app) {
 
 		var access_token = "";
 
+		try {
+			var email = req.session.user.email;
+		
+
 		// Check if user owns an netatmo-acesstoken allready and is not outdated
-		AM.CheckUserNetatmoToken(req.session.user.email, function(o, access_token) {
+		AM.CheckUserNetatmoToken(email, function(o, access_token) {
 			if (o != false)
 			{
 				// If a token exists and is fully valid
@@ -271,7 +274,6 @@ module.exports = function(app) {
 				//Make iris devicelist request
 				IM.RequestDeviceList(access_token, function(chunk) {
 					//TODO: Create fallback checking if Iris is down or chunk is not returned correctly
-
 										
 					AM.SaveDeviceListDB(req.session.user.email, chunk);
 
@@ -314,6 +316,14 @@ module.exports = function(app) {
 				}
 			}
 		});
+		} catch (e) {
+			console.log(e);
+
+			res.clearCookie('user');
+			res.clearCookie('pass');
+			req.session.destroy(function(e){ res.send('ok', 200); });
+			res.redirect('/');
+		}
 	});
 
 	app.post('/brand/netatmo', function(req, res){

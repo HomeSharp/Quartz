@@ -166,26 +166,30 @@ exports.saveCredentials = function(response_chunk, email, callback)
 
 exports.CheckUserNetatmoToken = function(email, callback)
 {
-	//Check at mongoDb if user has got any netatno credentials
-	accounts.findOne({email:email}, function(e, o) {
-		if (o.NetatmoAccessToken != null && o.NetatmoAccessToken != ""){
-			if(o.NetatmoAccessTokenTime <= new Date().getTime() / 1000)
-			{
-				console.log('Token is old, needs refresh');
-				callback("old");
+	try {
+		//Check at mongoDb if user has got any netatno credentials
+		accounts.findOne({email:email}, function(e, o) {
+			if (o.NetatmoAccessToken != null && o.NetatmoAccessToken != ""){
+				if(o.NetatmoAccessTokenTime <= new Date().getTime() / 1000)
+				{
+					console.log('Token is old, needs refresh');
+					callback("old");
+				}
+				else
+				{
+					console.log('Token exists and is valid');
+					callback(true, o.NetatmoAccessToken);
+				}
 			}
 			else
 			{
-				console.log('Token exists and is valid');
-				callback(true, o.NetatmoAccessToken);
+				console.log('No token exists');
+				callback(false, null);
 			}
-		}
-		else
-		{
-			console.log('No token exists');
-			callback(false, null);
-		}
-	});
+		});
+	} catch (e) {
+		console.log(e);
+	}
 }
 
 
@@ -195,13 +199,20 @@ exports.SaveDeviceListDB = function(email, chunk) {
 	chunk = JSON.parse(chunk);
 
 	//Save netatmo credentials to mongoDb
-	accounts.findOne({email:email}, function(e, o){
-		o.NetatmoDeviceList = chunk;
 
-		accounts.save(o, {safe: true}, function(err) {
-			console.log("Device list saved to database.");
+
+	try {
+		accounts.findOne({email:email}, function(e, o){
+			o.NetatmoDeviceList = chunk;
+			accounts.save(o, {safe: true}, function(err) {
+				console.log("Device list saved to database.");
+			});
 		});
-	});
+	} catch (error) {
+		console.log(error);
+	}
+
+
 
 
 }
