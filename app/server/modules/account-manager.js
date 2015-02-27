@@ -150,17 +150,21 @@ exports.delAllRecords = function(callback)
 
 exports.saveCredentials = function(response_chunk, email, callback)
 {
-	//Save netatmo credentials to mongoDb
-	accounts.findOne({email:email}, function(e, o){
-		o.NetatmoAccessToken = response_chunk.access_token;
-		o.NetatmoRefreshToken = response_chunk.refresh_token;
-		o.NetatmoAccessTokenTime = new Date().getTime() / 1000 + response_chunk.expires_in;
+	try {
+		//Save netatmo credentials to mongoDb
+		accounts.findOne({email:email}, function(e, o){
+			o.NetatmoAccessToken = response_chunk.access_token;
+			o.NetatmoRefreshToken = response_chunk.refresh_token;
+			o.NetatmoAccessTokenTime = new Date().getTime() / 1000 + response_chunk.expires_in;
 
-		accounts.save(o, {safe: true}, function(err) {
-			console.log("Access token saved to database.");
-			callback();
+			accounts.save(o, {safe: true}, function(err) {
+				console.log("Access token saved to database.");
+				callback();
+			});
 		});
-	});
+	} catch (e) {
+		console.log(e);
+	}
 }
 
 
@@ -195,13 +199,9 @@ exports.CheckUserNetatmoToken = function(email, callback)
 
 exports.SaveDeviceListDB = function(email, chunk) {
 	//Save deviceList to databse
-
-	chunk = JSON.parse(chunk);
-
 	//Save netatmo credentials to mongoDb
-
-
 	try {
+		chunk = JSON.parse(chunk);
 		accounts.findOne({email:email}, function(e, o){
 			o.NetatmoDeviceList = chunk;
 			accounts.save(o, {safe: true}, function(err) {
@@ -211,25 +211,25 @@ exports.SaveDeviceListDB = function(email, chunk) {
 	} catch (error) {
 		console.log(error);
 	}
-
-
-
-
 }
 
 exports.removeNetatmoAccessToken = function(email, callback)
 {
-	accounts.findOne({email:email}, function(e, o){
-		if (e){
-			callback(e, null);
-			console.log(email);
-		}	else{
-						o.NetatmoAccessToken = "";
-						o.NetatmoRefreshToken = "";
-						o.NetatmoAccessTokenTime = "";
-						accounts.save(o, {safe: true}, callback);
-		}
-	});
+	try {
+		accounts.findOne({email:email}, function(e, o){
+			if (e){
+				callback(e, null);
+				console.log(email);
+			}	else{
+							o.NetatmoAccessToken = "";
+							o.NetatmoRefreshToken = "";
+							o.NetatmoAccessTokenTime = "";
+							accounts.save(o, {safe: true}, callback);
+			}
+		});
+	} catch (e) {
+		console.log(e);
+	}
 }
 
 /* private encryption & validation methods */
