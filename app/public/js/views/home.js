@@ -30,7 +30,7 @@ $(document).ready(function(){
 
 // customize the account settings form //
 
-	$('.container.top-push h1').text('Account Settings');
+	$('.container.top-push.settings h1').text('Account Settings');
 	$('#account-form #sub1').text('Here are the current settings for your account.');
 	$('#user-tf').attr('disabled', 'disabled');
 	$('#account-form-btn1').html('Delete');
