@@ -20,11 +20,15 @@ module.exports = function(app) {
 
 	app.get('/', function(req, res){
 
-	// check if the user's credentials are saved in a cookie //
+		// If a user is logged in, he should be auto-redirected to /home
+		if (req.session.user != null){
+				res.redirect('/home');
+		}
+		// check if the user's credentials are saved in a cookie //
 		if (req.cookies.user == undefined || req.cookies.pass == undefined){
 			res.render('login', { title: 'Hello - Please Login To Your Home# Account'});
 		}	else{
-	// attempt automatic login //
+			// attempt automatic login //
 			AM.autoLogin(req.cookies.user, req.cookies.pass, function(o){
 				if (o != null){
 				    req.session.user = o;
@@ -247,7 +251,7 @@ module.exports = function(app) {
 
 		var access_token = "";
 
-		try {			
+		try {
 			// Check if user owns an netatmo-acesstoken allready and is not outdated
 			AM.CheckUserNetatmoToken(req.session.user.email, function(o, access_token) {
 				if (o != false)
@@ -277,7 +281,7 @@ module.exports = function(app) {
 
 					//Make iris devicelist request
 					IM.RequestDeviceList(access_token, function(chunk) {
-											
+
 						AM.SaveDeviceListDB(req.session.user.email, chunk);
 
 						chunk = IM.syntaxHighlight(JSON.parse(chunk));

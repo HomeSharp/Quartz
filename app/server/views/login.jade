@@ -2,30 +2,38 @@
 extends layout
 
 block content
-	#login-container
-		form( method="post")#login-form.well.span4
-			h1 Hello!
-			p.subheading Please Login To Your Home# Account
-			label E-mail
-			input(type="text", name="email", id='user-tf').span4.required
-			label Password
-			input(type="password", name="pass", id='pass-tf').span4.required
-			button(type="submit")#btn-login.btn.btn-primary
-				i.icon-lock.icon-white
-				| Sign in
-			label#remember-me.checkbox Remember Me
-				input(type="checkbox", checked='checked')
-			div.clear-fix
-			hr
-			div.btm-links
-				a(href='#')#forgot-password Forgot Your Password?
-				a(href='/signup')#create-account Create An Account
+
+	div.container.top-push
+		div.row
+			div.col-md-8
+				h1 Welcome to HomeSharp!
+				p HomeSharp (Home#) aims to create a platform for bringing a variety of different home automation control systems into one. Making it possible for a user to handle, and control all the smart devices from one GUI, using a smart API translating all the different requests to the specific standard used by the manufacturer (Eg. Netatmo, Telldus, Philips Hue).
+				p To get started, or to continue where you left off; just log in using the form to your right!
+			div.col-md-4
+				h2 Login
+				form( method="post")#login-form.well.span4
+					div.form-group
+						label(for="user-tf") E-mail
+						input(type="email", name="email", id='user-tf').form-control.required
+					div.form-group
+						label(for="pass-tf") Password
+						input(type="password", name="pass", id='pass-tf').form-control.required
+					div.checkbox
+						label
+							input(type="checkbox", checked='checked')
+							| Remember Me
+					button(type="submit").btn.btn-default Sign in
+					div.btm-links
+						p
+						a(href='#')#forgot-password Forgot Your Password?
+						p
+						a(href='/signup')#create-account Create An Account
 
 	include modals/alert
 	include modals/lost-password
 
 block scripts
-	script(src='/vendor/jquery.min.js')
+	script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js')
 	script(src='/vendor/jquery.form.js')
 	script(src='/vendor/bootstrap-modal.js')
 	script(src='/vendor/bootstrap-transition.js')

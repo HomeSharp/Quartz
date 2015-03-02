@@ -2,29 +2,17 @@
 extends layout
 
 block content
-		div.navbar.navbar-fixed-top
-			div.navbar-inner
-				div.container-fluid
-					ul#global-nav.nav.pull-left
-						a(href='').brand Home#
-					button#btn-logout.btn.btn-primary
-						i.icon-lock.icon-white
-						| Sign Out
 
 		div.container.top-push
-			h1 Home# - Overview
-			p This is the overview for the Home# application.
-			p
-				a(href='/settings') Update your settings
-			h2 Devices
-			p
-				a(href='/brand/netatmo') Netatmo
+			h1 Welcome to HomeSharp!
+			p Choose a action in the above menu to get started.
 
 block scripts
-	script(src='/vendor/jquery.min.js')
+	script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js')
 	script(src='/vendor/jquery.form.js')
 	script(src='/vendor/bootstrap-modal.js')
 	script(src='/vendor/bootstrap-transition.js')
+	script(src="/vendor/bootstrap.min.js")
 	script(src='/js/views/home.js')
 	script(src='/js/controllers/homeController.js')
 	script(src='/js/form-validators/accountValidator.js')
