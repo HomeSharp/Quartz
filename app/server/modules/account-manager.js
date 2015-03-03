@@ -1,26 +1,24 @@
+var config = require('./config.js');
 
 var crypto 		= require('crypto');
 var MongoDB 	= require('mongodb').Db;
 var Server 		= require('mongodb').Server;
 var moment 		= require('moment');
 
-var dbPort 		= 45097;
-var dbHost 		= 'ds045097.mongolab.com';
-var dbName 		= 'cobmedia';
-
 /* establish the database connection */
 
-var db = new MongoDB(dbName, new Server(dbHost, dbPort, {auto_reconnect: true}), {w: 1});
+var db = new MongoDB(config.databaseConfigValues().dbName, new Server(config.databaseConfigValues().dbHost, config.databaseConfigValues().dbPort, {auto_reconnect: true}), {w: 1});
 	db.open(function(e, d){
 	if (e) {
 		console.log(e);
 	}	else{
-		console.log('connected to database :: ' + dbName);
-        db.authenticate('CobMedia', 'CobMedia2014', function(err, res) {
-            console.log('authenticated, db admin logged in. :: ' + dbName);
+		console.log('Connected to database :: ' + config.databaseConfigValues().dbName);
+        db.authenticate(config.databaseConfigValues().dbUsername, config.databaseConfigValues().dbPassword, function(err, res) {
+            console.log('Authenticated, db admin logged in. :: ' + config.databaseConfigValues().dbName);
         });
 	}
 });
+
 var accounts = db.collection('accounts');
 
 /* login validation methods */

@@ -9,10 +9,10 @@ exports.RequestAuthToken = function(code, callback)
   // Build the post string from an object.
   var post_data = querystring.stringify({
   		'grant_type': 'authorization_code',
-	    'client_id': config.configValues().clientId,
-	    'client_secret': config.configValues().clientSecret,
+	    'client_id': config.netatmoConfigValues().clientId,
+	    'client_secret': config.netatmoConfigValues().clientSecret,
 	    'code': code,
-	    'redirect_uri': config.configValues().domain + '/brand/netatmo',
+	    'redirect_uri': config.netatmoConfigValues().domain + '/brand/netatmo',
 	    'scope': 'read_station read_thermostat write_thermostat'
   });
 
@@ -47,10 +47,10 @@ exports.RequestRefreshAuthToken = function(refreshToken, callback)
   // Build the post string from an object
   var post_data = querystring.stringify({
       'grant_type': 'refresh_token',
-      'client_id': config.configValues().clientId,
-      'client_secret': config.configValues().clientSecret,
+      'client_id': config.netatmoConfigValues().clientId,
+      'client_secret': config.netatmoConfigValues().clientSecret,
       'refresh_token': refreshToken,
-      'redirect_uri': config.configValues().domain + '/brand/netatmo',
+      'redirect_uri': config.netatmoConfigValues().domain + '/brand/netatmo',
       'scope': 'read_station read_thermostat write_thermostat'
   });
 
