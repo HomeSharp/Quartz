@@ -1,5 +1,4 @@
 .DS_Store
 node_modules
 app/server/modules/email-settings-mine.js
-app/server/modules/netatmo-manager.js
 app/server/modules/config.js
