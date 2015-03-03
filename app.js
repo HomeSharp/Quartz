@@ -18,7 +18,8 @@ app.configure(function(){
 //	app.use(express.logger('dev'));
 	app.use(express.bodyParser());
 	app.use(express.cookieParser());
-	app.use(express.session({ secret: 'super-duper-secret-secret' }));
+	// Session is as of now set to last 1 hour.
+	app.use(express.session({ secret: 'super-duper-secret-secret', maxAge  : new Date(Date.now() + 3600000), expires : new Date(Date.now() + 3600000) }));
 	app.use(express.methodOverride());
 	app.use(require('stylus').middleware({ src: __dirname + '/app/public' }));
 	app.use(express.static(__dirname + '/app/public'));
