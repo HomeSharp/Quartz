@@ -4,6 +4,8 @@ $(document).ready(function(){
 	var lv = new LoginValidator();
 	var lc = new LoginController();
 
+	$("#logout").remove();
+
 // main login form //
 
 	$('#login-form').ajaxForm({
