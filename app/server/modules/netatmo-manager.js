@@ -12,7 +12,7 @@ exports.RequestAuthToken = function(code, callback)
 	    'client_id': config.netatmoConfigValues().clientId,
 	    'client_secret': config.netatmoConfigValues().clientSecret,
 	    'code': code,
-	    'redirect_uri': config.netatmoConfigValues().domain + '/brand/netatmo',
+	    'redirect_uri': config.appConfigValues().domain + '/brand/netatmo',
 	    'scope': 'read_station read_thermostat write_thermostat'
   });
 
@@ -50,7 +50,7 @@ exports.RequestRefreshAuthToken = function(refreshToken, callback)
       'client_id': config.netatmoConfigValues().clientId,
       'client_secret': config.netatmoConfigValues().clientSecret,
       'refresh_token': refreshToken,
-      'redirect_uri': config.netatmoConfigValues().domain + '/brand/netatmo',
+      'redirect_uri': config.appConfigValues().domain + '/brand/netatmo',
       'scope': 'read_station read_thermostat write_thermostat'
   });
 

@@ -1,15 +1,15 @@
 // We need this to build our post string
 var querystring = require('querystring');
 var http = require('http');
-
+var config = require('./config.js');
 
 exports.RequestDeviceList = function(access_token, callback)
 {
   //console.log(access_token + "hej");
   // An object of options to indicate where to post to
   var post_options = {
-      host: '127.0.0.1',
-      port: '3000',
+      host: config.irisConfigValues().domain,
+      port: config.irisConfigValues().port,
       path: '/api/User/Devices',
       method: 'GET',
       headers: {
