@@ -1,4 +1,3 @@
-
 var CT = require('./modules/country-list');
 var AM = require('./modules/account-manager');
 var EM = require('./modules/email-dispatcher');
@@ -7,12 +6,8 @@ var IM = require('./modules/iris-manager');
 
 var url = require('url');
 
-
 var crypto = require('crypto');
-
-
-
-
+var config = require('./modules/config.js');
 
 module.exports = function(app) {
 
@@ -318,7 +313,7 @@ module.exports = function(app) {
 						}
 					else
 					{
-						res.render('netatmo', {  title: 'Connect to Netatmo', state_token: csrf_token, NetatmoConnected: false });
+						res.render('netatmo', {  title: 'Connect to Netatmo', state_token: csrf_token, NetatmoConnected: false, domain: config.appConfigValues().domain });
 					}
 				}
 			});
