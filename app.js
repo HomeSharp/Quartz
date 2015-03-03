@@ -14,11 +14,12 @@ app.configure(function(){
 	app.set('views', __dirname + '/app/server/views');
 	app.set('view engine', 'jade');
 	app.locals.pretty = true;
-//	app.use(express.favicon());
+	app.use(express.favicon("app/public/img/favicon.png"));
 //	app.use(express.logger('dev'));
 	app.use(express.bodyParser());
 	app.use(express.cookieParser());
-	app.use(express.session({ secret: 'super-duper-secret-secret' }));
+	// Session is as of now set to last 1 hour.
+	app.use(express.session({ secret: 'super-duper-secret-secret', maxAge  : new Date(Date.now() + 3600000), expires : new Date(Date.now() + 3600000) }));
 	app.use(express.methodOverride());
 	app.use(require('stylus').middleware({ src: __dirname + '/app/public' }));
 	app.use(express.static(__dirname + '/app/public'));

@@ -1,20 +1,38 @@
 !!! 5
 html
 	head
-		title Home#
+		title HomeSharp - Home Automation Management Simplified
 		link(rel='stylesheet', href='/vendor/bootstrap.min.css')
 		link(rel='stylesheet', href='/css/style.css')
-		script(type='text/javascript')
-			var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', 'UA-1890531-10']);
-			_gaq.push(['_setDomainName', 'braitsch.io']);
-			_gaq.push(['_trackPageview']);
-			(function() {
-				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-			})();
+
 	body
+		div#header
+			div.container
+				img(src="../img/LogotypeDraft2.png", width="300")
+
+		div.navbar.navbar-default.navbar-static-top
+			div.container
+				div.navbar-header
+					button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target="#navbar", aria-expanded="false", aria-controls="navbar")
+						span.sr-only Toggle navigation
+						span.icon-bar
+						span.icon-bar
+						span.icon-bar
+				div#navbar.navbar-collapse.collapse
+					ul.nav.navbar-nav
+						li
+							a(href="/home") Home
+						li.dropdown
+							a(href="#", data-toggle="dropdown", role="button", aria-expanded="false").dropdown-toggle Devices
+								span.caret
+							ul.dropdown-menu(role="menu")
+								li
+									a(href="/brand/netatmo") Netatmo
+						li
+							a(href="/settings") Settings
+					ul.nav.navbar-nav.navbar-right
+						li
+							a(href="/logout") Logout
 
 	block content
 	block scripts
