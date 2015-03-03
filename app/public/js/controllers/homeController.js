@@ -50,9 +50,13 @@ function HomeController()
 
 HomeController.prototype.onUpdateSuccess = function()
 {
+	$().alert()
+	$(".alert-success").show();
+	/*
 	$('.modal-alert').modal({ show : false, keyboard : true, backdrop : true });
 	$('.modal-alert .modal-header h3').text('Success!');
 	$('.modal-alert .modal-body p').html('Your account has been updated.');
 	$('.modal-alert').modal('show');
 	$('.modal-alert button').off('click');
+	*/
 }

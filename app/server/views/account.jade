@@ -5,36 +5,41 @@
 input(type='hidden', value= user._id)#userId
 
 div.container.top-push.settings
+	div.alert.alert-success.alert-dismissible.fade.in(role="alert", aria-hidden="true", hidden="true")
+		button.close(type="button", data-dismiss="alert", aria-label="Close", aria-hidden="true")
+			span(area-hidden="true") &times;
+		p Thanks for the update, the new information has now been saved!
 	h1
-	#account-form-container
-		form( method="post")#account-form.form-horizontal.well.span6
-			p#sub1.subheading Please tell us a little about yourself.
-			hr
-			fieldset
-				#name-cg.control-group
-					label.control-label(for='name-tf') Name
-					.controls
-						input#name-tf.input-xlarge(type='text', name='name', value= user.name)
-				#email-cg.control-group
-					label.control-label(for='email-tf') Email
-					.controls
-						input#email-tf.input-xlarge(readonly, type='text', name='email', value= user.email)
-				#clist-cg.control-group
-					label.control-label(for='country-list') Location
-					.controls
-						select#country-list(name='country')
+
+	div.row
+		div.col-md-8
+			#account-form-container
+				form(method="post")#account-form
+					p#sub1.subheading Please tell us a little about yourself.
+
+					div.form-group
+						label(for='name-tf') Name
+						input#name-tf.form-control(type='text', name='name', value= user.name)
+
+					div.form-group
+						label(for='email-tf') Email
+						input#email-tf.form-control(readonly, type='text', name='email', value= user.email)
+
+					div.form-group
+						label(for='country-list') Location
+						select#country-list.form-control(name='country')
 							each item in countries
 								option(selected=item.name == user.country)= item.name
-				hr
-				p#sub2.subheading
 
-				#pass-cg.control-group
-					label.control-label(for='pass-tf') Password
-					.controls
-						input#pass-tf.input-xlarge(type='password', name='pass', value='')
-				.form-actions
-					button(type='button')#account-form-btn1.btn
-					button(type='submit')#account-form-btn2.btn
+					p#sub2.subheading
+
+					div.form-group
+						label(for='pass-tf') Password
+						input#pass-tf.form-control(type='password', name='pass', value='')
+
+
+					button(type='button', data-toggle="modal", data-target=".modal-alert")#account-form-btn1.btn
+					button(type='submit', data-toggle="modal", data-target=".modal-alert")#account-form-btn2.btn
 
 // display form errors in a custom modal window //
 
