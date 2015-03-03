@@ -3,7 +3,7 @@ $(document).ready(function(){
 
 	var hc = new HomeController();
 	var av = new AccountValidator();
-	
+
 	$('#account-form').ajaxForm({
 		beforeSubmit : function(formData, jqForm, options){
 			if (av.validateForm() == false){
@@ -29,8 +29,8 @@ $(document).ready(function(){
 	$('#github-banner').css('top', '41px');
 
 // customize the account settings form //
-	
-	$('#account-form h1').text('Account Settings');
+
+	$('.container.top-push.settings h1').text('Account Settings');
 	$('#account-form #sub1').text('Here are the current settings for your account.');
 	$('#user-tf').attr('disabled', 'disabled');
 	$('#account-form-btn1').html('Delete');
