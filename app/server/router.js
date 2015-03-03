@@ -226,7 +226,6 @@ module.exports = function(app) {
 // For connecting and handling of Netatmo apps //
 
 	app.get('/brand/netatmo', function(req, res) {
-
 		//Check url parameters
 		var url_parts = url.parse(req.url, true);
 		var query = url_parts.query;
@@ -247,7 +246,9 @@ module.exports = function(app) {
 
 		var access_token = "";
 
-		try {			
+		console.log(req.session);
+
+		try {
 			// Check if user owns an netatmo-acesstoken allready and is not outdated
 			AM.CheckUserNetatmoToken(req.session.user.email, function(o, access_token) {
 				if (o != false)
