@@ -5,6 +5,8 @@ $(document).ready(function(){
 	var lc = new LoginController();
 
 	$("#logout").remove();
+	$("#settings").remove();
+	$("#devices").remove();
 
 // main login form //
 
