@@ -280,7 +280,6 @@ module.exports = function(app) {
 
 						chunk = IM.syntaxHighlight(JSON.parse(chunk));
 						console.log(chunk);
-
 					});
 				}
 				else
