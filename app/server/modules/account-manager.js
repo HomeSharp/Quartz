@@ -206,6 +206,7 @@ exports.removeNetatmoAccessToken = function(email, callback)
 							o.NetatmoAccessToken = "";
 							o.NetatmoRefreshToken = "";
 							o.NetatmoAccessTokenTime = "";
+							o.NetatmoDeviceList = "";
 							accounts.save(o, {safe: true}, callback);
 			}
 		});

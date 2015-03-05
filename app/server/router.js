@@ -327,6 +327,7 @@ module.exports = function(app) {
 					req.session.user.NetatmoAccessToken = "";
 					req.session.user.NetatmoRefreshToken = "";
 					req.session.user.NetatmoAccessTokenTime = "";
+					req.session.user.NetatmoDeviceList = "";
 					res.send('ok', 200);
 				}
 			});
