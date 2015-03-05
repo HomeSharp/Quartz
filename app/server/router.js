@@ -3,6 +3,7 @@ var AM = require('./modules/account-manager');
 var EM = require('./modules/email-dispatcher');
 var NM = require('./modules/netatmo-manager');
 var IM = require('./modules/iris-manager');
+var TM = require('./modules/telldus-manager');
 
 var url = require('url');
 
@@ -333,6 +334,13 @@ module.exports = function(app) {
 					res.send('ok', 200);
 				}
 			});
+	});
+
+	app.get('/telldusTest', function(req, res){
+		// AM.checkUserTelldusToken;
+		TM.RequestAuthToken();
+
+		res.send('ok', 200);
 	});
 
 	app.get('*', function(req, res) { res.render('404', { title: 'Page Not Found'}); });
