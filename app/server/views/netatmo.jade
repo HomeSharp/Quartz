@@ -4,7 +4,7 @@ extends layout
 block content
 
 		div.container.top-push
-			h1 Home# - Netatmo
+			h1 HomeSharp - Netatmo
 			if NetatmoConnected == true
 				p You have authenticated with success, your Netatmo devices will show up here soon.
 				p
@@ -13,7 +13,7 @@ block content
 				p Coming soon
 			else
 				div#Connect
-					p There are currently no Netatmo-account synced with Home#,&nbsp;
+					p There are currently no Netatmo-account synced with HomeSharp,&nbsp;
 						a(href='https://api.netatmo.net/oauth2/authorize?client_id=54c64eaa485a8812863eadfd&redirect_uri=#{domain}/brand/netatmo&scope=read_station%20read_thermostat%20write_thermostat&state=#{state_token}') sync one now?
 
 block scripts

@@ -1,5 +1,5 @@
 $(document).ready(function(){
 
-	var hc = new NetatmoController();
+	var hc = new TelldusController();
 
 })

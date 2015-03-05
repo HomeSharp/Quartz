@@ -336,6 +336,10 @@ module.exports = function(app) {
 			});
 	});
 
+	app.get("/brand/telldus", function(req, res) {
+		res.render('telldus', {  title: 'Connect to Telldus', TelldusConnected: false, domain: config.appConfigValues().domain });
+	});
+
 	app.get('/telldusTest', function(req, res){
 		// AM.checkUserTelldusToken;
 		TM.RequestAuthToken();
