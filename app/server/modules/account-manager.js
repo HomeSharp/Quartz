@@ -21,7 +21,7 @@ var db = new MongoDB(config.databaseConfigValues().dbName, new Server(config.dat
 
 var accounts = db.collection('accounts');
 
-/* login validation methods */
+/* Login validation methods */
 
 exports.autoLogin = function(email, pass, callback)
 {
@@ -194,23 +194,6 @@ exports.CheckUserNetatmoToken = function(email, callback)
 	}
 }
 
-
-exports.SaveDeviceListDB = function(email, chunk) {
-	//Save deviceList to databse
-	//Save netatmo credentials to mongoDb
-	try {
-		chunk = JSON.parse(chunk);
-		accounts.findOne({email:email}, function(e, o){
-			o.NetatmoDeviceList = chunk;
-			accounts.save(o, {safe: true}, function(err) {
-				console.log("Device list saved to database.");
-			});
-		});
-	} catch (error) {
-		console.log(error);
-	}
-}
-
 exports.removeNetatmoAccessToken = function(email, callback)
 {
 	try {
@@ -227,6 +210,42 @@ exports.removeNetatmoAccessToken = function(email, callback)
 		});
 	} catch (e) {
 		console.log(e);
+	}
+}
+
+exports.SaveDeviceListDB = function(email, chunk) {
+	//Save deviceList to databse
+	//Save netatmo credentials to mongoDb
+	try
+	{
+		chunk = JSON.parse(chunk);
+		accounts.findOne({email:email}, function(e, o){
+			o.NetatmoDeviceList = chunk;
+			accounts.save(o, {safe: true}, function(err) {
+				console.log("Device list saved to database.");
+			});
+		});
+	}
+	catch (error)
+	{
+		console.log(error);
+	}
+}
+
+exports.saveTelldusKeys = function(email, keys) {
+	// Save Telldus Live keys to database
+	try
+	{
+		accounts.findOne({email:email}, function(e, o){
+			o.TelldusKeys = keys;
+			accounts.save(o, {safe: true}, function(err) {
+				console.log("Telldus Live keys saved to databse.");
+			});
+		});
+	}
+	catch (error)
+	{
+		console.log(error);
 	}
 }
 

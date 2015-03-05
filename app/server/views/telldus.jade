@@ -15,19 +15,19 @@ block content
 				div#Connect
 					h3 Sync with Telldus Live
 					p To sync with Telldus Live, just enter your keys below.
-					form( method="post")#telldus-form
+					form(method="post", action="/brand/telldus/")#telldus-form
 						div.form-group
-							label(for="public-key") Public key
-							input(type="text", name="publicKey", id='public-key', autofocus).form-control.required
+							label(for="publicKey") Public key
+							input(type="text", name="publicKey", id='publicKey', autofocus).form-control.required
 						div.form-group
-							label(for="private-key") Private key
-							input(type="password", name="privateKey", id='private-key').form-control.required
+							label(for="privateKey") Private key
+							input(type="password", name="privateKey", id='privateKey').form-control.required
 						div.form-group
 							label(for="token") Token
 							input(type="text", name="token", id='token').form-control.required
 						div.form-group
-							label(for="token-secret") Token secret
-							input(type="password", name="tokenSecret", id='token.secret').form-control.required
+							label(for="tokenSecret") Token secret
+							input(type="password", name="tokenSecret", id='tokenSecret').form-control.required
 						button(type="submit").btn.btn-default Save and sync
 
 block scripts

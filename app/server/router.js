@@ -335,13 +335,35 @@ module.exports = function(app) {
 	// For connecting and handling of Telldus apps //
 
 	app.get("/brand/telldus", function(req, res) {
-		res.render('telldus', {  title: 'Connect to Telldus', TelldusConnected: false, domain: config.appConfigValues().domain });
+		if (req.session.user == null)
+		{
+				// If user is not logged-in redirect back to login page
+				res.redirect('/');
+		}
+		else
+		{
+			res.render('telldus', {  title: 'Connect to Telldus', TelldusConnected: false, domain: config.appConfigValues().domain });
+		}
+	});
+
+	app.post('/brand/telldus', function(req, res){
+		if (req.session.user == null)
+		{
+				// If user is not logged-in redirect back to login page
+				res.redirect('/');
+		}
+		else
+		{
+			// Function for saving Telldus keys. A object containing the keys is created (JSON format), sent to the function in AM and saved to the DB.
+			var keys = {publicKey:req.body.publicKey, privateKey:req.body.privateKey, token:req.body.token, tokenSecret:req.body.tokenSecret};
+			AM.saveTelldusKeys(req.session.user.email, keys);
+			res.redirect('/brand/telldus');
+		}
 	});
 
 	app.get('/telldusTest', function(req, res){
 		// AM.checkUserTelldusToken;
 		TM.RequestAuthToken();
-
 		res.send('ok', 200);
 	});
 
