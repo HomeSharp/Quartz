@@ -366,16 +366,36 @@ module.exports = function(app) {
 		{
 			// Function for saving Telldus keys. A object containing the keys is created (JSON format), sent to the function in AM and saved to the DB.
 			var keys = {publicKey:req.body.publicKey, privateKey:req.body.privateKey, token:req.body.token, tokenSecret:req.body.tokenSecret};
-			AM.saveTelldusKeys(req.session.user.email, keys);
-			res.redirect('/brand/telldus');
+			AM.saveTelldusKeys(req.session.user.email, keys, function()
+			{
+				res.redirect('/brand/telldus');
+			});
 		}
 	});
 
+	app.post('/brand/telldus/unlink', function(req, res){
+			// Removes the access keys for Telldus Live
+			AM.removeTelldusKeys(req.session.user.email, function(e, o){
+				if (e)
+				{
+					res.send('error-updating-account', 400);
+				}
+				else
+				{
+					req.session.user.TelldusKeys
+					res.send('ok', 200);
+				}
+			});
+	});
+
+	// This functionality for retrieving keys directly from Telldus has been cancelled for now, but devs. are welcome to finish it.
+	/*
 	app.get('/telldusTest', function(req, res){
 		// AM.checkUserTelldusToken;
 		TM.RequestAuthToken();
 		res.send('ok', 200);
 	});
+	*/
 
 	app.get('*', function(req, res) { res.render('404', { title: 'Page Not Found'}); });
 };

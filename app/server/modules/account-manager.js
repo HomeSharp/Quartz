@@ -258,7 +258,7 @@ exports.CheckUserTelldusKeys = function(email, callback)
 	}
 }
 
-exports.saveTelldusKeys = function(email, keys) {
+exports.saveTelldusKeys = function(email, keys, callback) {
 	// Save Telldus Live keys to database
 	try
 	{
@@ -267,11 +267,36 @@ exports.saveTelldusKeys = function(email, keys) {
 			accounts.save(o, {safe: true}, function(err) {
 				console.log("Telldus Live keys saved to databse.");
 			});
+			callback();
 		});
 	}
 	catch (error)
 	{
 		console.log(error);
+	}
+}
+
+exports.removeTelldusKeys = function(email, callback)
+{
+	// Remove Telldus Live keys from database
+	try
+	{
+		accounts.findOne({email:email}, function(e, o){
+			if (e)
+			{
+				callback(e, null);
+				console.log(email);
+			}
+			else
+			{
+				o.TelldusKeys = "";
+				accounts.save(o, {safe: true}, callback);
+			}
+		});
+	}
+	catch (e)
+	{
+		console.log(e);
 	}
 }
 

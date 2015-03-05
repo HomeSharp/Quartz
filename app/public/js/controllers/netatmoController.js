@@ -16,7 +16,7 @@ function NetatmoController()
 			type: "POST",
 			data: {unlink : true},
 			success: function(data){
-				window.location.href = '/home';
+				window.location.href = '/brand/netatmo';
 			},
 			error: function(jqXHR){
 				console.log(jqXHR.responseText+' :: '+jqXHR.statusText);
