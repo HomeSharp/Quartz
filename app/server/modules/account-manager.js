@@ -165,6 +165,7 @@ exports.saveCredentials = function(response_chunk, email, callback)
 	}
 }
 
+/* Actions for Netatmo */
 
 exports.CheckUserNetatmoToken = function(email, callback)
 {
@@ -229,6 +230,31 @@ exports.SaveDeviceListDB = function(email, chunk) {
 	catch (error)
 	{
 		console.log(error);
+	}
+}
+
+/* Actions for Telldus */
+
+exports.CheckUserTelldusKeys = function(email, callback)
+{
+	try
+	{
+		//Check at mongoDb if user has got any telldus credentials
+		accounts.findOne({email:email}, function(e, o) {
+			if (o.TelldusKeys != null && o.TelldusKeys != "")
+			{
+				console.log('Keys for Telldus are stored in the database.');
+				callback(true, o.TelldusKeys);
+			}
+			else
+			{
+				console.log('No keys for Telldus are stored in the database.');
+				callback(false, null);
+			}
+		});
+	}
+		catch (e) {
+		console.log(e);
 	}
 }
 

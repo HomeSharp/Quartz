@@ -249,7 +249,7 @@ module.exports = function(app) {
 					// If a token exists and is fully valid
 					if (o == true)
 					{
-								res.render('netatmo', {  title: 'Connect to Netatmo', state_token: csrf_token, NetatmoConnected: true });
+								res.render('netatmo', {  title: 'Your Netatmo devices', state_token: csrf_token, NetatmoConnected: true });
 					}
 
 					// If the token is outdated, a refresh will be done
@@ -342,7 +342,17 @@ module.exports = function(app) {
 		}
 		else
 		{
-			res.render('telldus', {  title: 'Connect to Telldus', TelldusConnected: false, domain: config.appConfigValues().domain });
+			// Check if user has entered the keys for his Telldus Live account
+			AM.CheckUserTelldusKeys(req.session.user.email, function(o, access_token) {
+				if (o === true)
+				{
+					res.render('telldus', {  title: 'Your Telldus devices', TelldusConnected: true, domain: config.appConfigValues().domain });
+				}
+				else
+				{
+					res.render('telldus', {  title: 'Connect to Telldus', TelldusConnected: false, domain: config.appConfigValues().domain });
+				}
+			});
 		}
 	});
 
