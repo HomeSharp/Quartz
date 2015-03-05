@@ -1,9 +1,4 @@
-
-/**
-	* Node.js Login Boilerplate
-	* More Info : http://bit.ly/LsODY8
-	* Copyright (c) 2013 Stephen Braitsch
-**/
+/* For further user-specific settings, see file "config.js" in "app/server/modules" dir. */
 
 var express = require('express');
 var http = require('http');
@@ -15,7 +10,6 @@ app.configure(function(){
 	app.set('view engine', 'jade');
 	app.locals.pretty = true;
 	app.use(express.favicon("app/public/img/favicon.png"));
-//	app.use(express.logger('dev'));
 	app.use(express.bodyParser());
 	app.use(express.cookieParser());
 	// Session is as of now set to last 1 hour.
