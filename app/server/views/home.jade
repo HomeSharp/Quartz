@@ -4,8 +4,14 @@ extends layout
 block content
 
 		div.container.top-push
-			h1 Welcome to HomeSharp!
-			p Choose a action in the above menu to get started.
+			div.row
+				div.col-md-8
+					h1 Welcome home #{udata.name}!
+					p To get started just choose a action in the above menu. And also, have a great day!
+					img(src="/img/apple.jpg", style="width: 100%;", alt="Picture of a computer, mouse and a pair of glasses")
+				div.col-md-4
+					h2 Some current stats
+					p Coming soon.
 
 block scripts
 	script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js')

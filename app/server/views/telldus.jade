@@ -4,31 +4,43 @@ extends layout
 block content
 
 		div.container.top-push
-			h1 HomeSharp - Telldus
 			if TelldusConnected == true
-				p You have authenticated with success, your Telldus devices will show up here soon.
-				p
-					button#btn-unlinkTelldus.btn.btn-danger.btn-xs Unlink account
-				h2 My devices
-				p Coming soon
+				div.row
+					div.col-md-8
+						h1 Telldus
+						p You have authenticated with success, your Telldus devices will show up here soon.
+						p
+							button#btn-unlinkTelldus.btn.btn-danger.btn-xs Unlink account
+						h2 My devices
+						p Coming soon
 			else
-				div#Connect
-					h3 Sync with Telldus Live
-					p To sync with Telldus Live, just enter your keys below.
-					form(method="post", action="/brand/telldus/")#telldus-form
-						div.form-group
-							label(for="publicKey") Public key
-							input(type="text", name="publicKey", id='publicKey', autofocus).form-control.required
-						div.form-group
-							label(for="privateKey") Private key
-							input(type="password", name="privateKey", id='privateKey').form-control.required
-						div.form-group
-							label(for="token") Token
-							input(type="text", name="token", id='token').form-control.required
-						div.form-group
-							label(for="tokenSecret") Token secret
-							input(type="password", name="tokenSecret", id='tokenSecret').form-control.required
-						button(type="submit").btn.btn-default Save and sync
+				div.row
+					div.col-md-8
+						h1 Sync with Telldus Live
+						div#Connect
+							p To sync with Telldus Live, just enter your keys below.
+							form(method="post", action="/brand/telldus/")#telldus-form
+								div.form-group
+									label(for="publicKey") Public key
+									input(type="text", name="publicKey", id='publicKey', autofocus).form-control.required
+								div.form-group
+									label(for="privateKey") Private key
+									input(type="password", name="privateKey", id='privateKey').form-control.required
+								div.form-group
+									label(for="token") Token
+									input(type="text", name="token", id='token').form-control.required
+								div.form-group
+									label(for="tokenSecret") Token secret
+									input(type="password", name="tokenSecret", id='tokenSecret').form-control.required
+								button(type="submit").btn.btn-default Save and sync
+								p &nbsp;
+					div.col-md-4
+						h3 Where do I find these keys?
+						p To retrieve the keys needed for syncing between HomeSharp and Telldus Live, please visit:&nbsp;
+							a(href="https://api.telldus.com/keys/index", target="_blank") https://api.telldus.com/keys/index
+						p Log in and click the link "Generate a private token for my user only"
+						p Copy the generated keys from the Telldus website and enter them here, click save and sync. Then HomeSharp takes care of the rest for you!
+
 
 block scripts
 	script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js')

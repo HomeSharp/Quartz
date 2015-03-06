@@ -4,17 +4,19 @@ extends layout
 block content
 
 		div.container.top-push
-			h1 HomeSharp - Netatmo
 			if NetatmoConnected == true
+				h1 Netatmo
 				p You have authenticated with success, your Netatmo devices will show up here soon.
 				p
 					button#btn-unlinkNetatmo.btn.btn-danger.btn-xs Unlink account
 				h2 My devices
 				p Coming soon
 			else
+				h1 Sync with Netatmo
 				div#Connect
-					p There are currently no Netatmo-account synced with HomeSharp,&nbsp;
-						a(href='https://api.netatmo.net/oauth2/authorize?client_id=54c64eaa485a8812863eadfd&redirect_uri=#{domain}/brand/netatmo&scope=read_station%20read_thermostat%20write_thermostat&state=#{state_token}') sync one now?
+					p There are currently no Netatmo-account synced with HomeSharp.
+					p
+						a.btn.btn-default(role="button", href='https://api.netatmo.net/oauth2/authorize?client_id=54c64eaa485a8812863eadfd&redirect_uri=#{domain}/brand/netatmo&scope=read_station%20read_thermostat%20write_thermostat&state=#{state_token}') Sync now
 
 block scripts
 	script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js')
