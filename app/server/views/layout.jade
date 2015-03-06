@@ -21,19 +21,31 @@ html
 				div#navbar.navbar-collapse.collapse
 					ul.nav.navbar-nav
 						li
-							a(href="/home") Home
+							a(href="/home")
+								| Home &nbsp;&nbsp;
+								span.glyphicon.glyphicon-home
 						li#devices.dropdown
-							a(href="#", data-toggle="dropdown", role="button", aria-expanded="false").dropdown-toggle Devices
+							a(href="#", data-toggle="dropdown", role="button", aria-expanded="false").dropdown-toggle Devices &nbsp;
 								span.caret
 							ul.dropdown-menu(role="menu")
 								li
 									a(href="/brand/netatmo") Netatmo
 									a(href="/brand/telldus") Telldus
 						li#settings
-							a(href="/settings") Settings
+							a(href="/settings")
+								| Settings &nbsp;&nbsp;
+								span.glyphicon.glyphicon-wrench
 					ul.nav.navbar-nav.navbar-right
 						li#logout
-							a(href="/logout") Logout
+							a(href="/logout")
+								| Logout &nbsp;&nbsp;
+								span.glyphicon.glyphicon-off
+
 
 		block content
+
+		footer.footer
+			div.container
+				p.text-muted Copyright &copy 2015 CobMedia - (MIT Licence)
+
 		block scripts

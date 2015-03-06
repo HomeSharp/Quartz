@@ -7,6 +7,8 @@ block content
 		div.row
 			div.col-md-8
 				h1 Welcome to HomeSharp!
+				img(src="/img/home.jpg", style="width: 100%;")
+				p
 				p HomeSharp aims to create a platform for bringing a variety of different home automation control systems into one. Making it possible for a user to handle, and control all the smart devices from one GUI, using a smart API translating all the different requests to the specific standard used by the manufacturer (e.g. Netatmo, Telldus, Philips Hue).
 				p To get started, or to continue where you left off; just log in using the form to your right!
 			div.col-md-4
@@ -22,7 +24,9 @@ block content
 						label
 							input(type="checkbox", checked='checked')
 							| Remember Me
-					button(type="submit").btn.btn-default Sign in
+					button(type="submit").btn.btn-default
+						span.glyphicon.glyphicon-lock
+						|  Sign in
 					div.btm-links
 						p
 						a(href='#')#forgot-password Forgot Your Password?
