@@ -2,7 +2,12 @@
 extends layout
 
 block content
-	include createAccount
+	div.container.top-push
+		div.row
+			div.col-md-8
+				include createAccount
+
+
 	include modals/alert
 
 block scripts
