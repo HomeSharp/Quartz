@@ -3,7 +3,7 @@ var querystring = require('querystring');
 var http = require('http');
 var config = require('./config.js');
 
-exports.RequestDeviceList = function(access_token, callback)
+exports.RequestNetatmoDeviceList = function(access_token, callback)
 {
   //console.log(access_token + "hej");
   // An object of options to indicate where to post to
@@ -35,6 +35,46 @@ exports.RequestDeviceList = function(access_token, callback)
   get_req.end();
 
 }
+
+
+exports.RequestTelldusDeviceList = function(keys, callback)
+{
+
+  //console.log(access_token + "hej");
+  // An object of options to indicate where to post to
+  var post_options = {
+      host: config.irisConfigValues().domain,
+      port: config.irisConfigValues().port,
+      path: '/api/User/Devices',
+      method: 'GET',
+      headers: {
+          'publickey': keys.publicKey,
+          'privatekey': keys.privateKey,
+          'access_token': keys.token,
+          'tokensecret': keys.tokenSecret,
+          'brand': 'Telldus'
+      }
+  };
+
+  // Set up the request
+  var get_req = http.request(post_options, function(res) {
+      res.setEncoding('utf8');
+
+      res.on('data', function (chunk) {
+          if(res.statusCode == 200) {
+            callback(chunk);
+          } else {
+            console.log("Iris didn't return device list");
+          }
+      });
+  });
+
+  // post the data
+  get_req.end();
+
+}
+
+
 
 
 exports.syntaxHighlight = function(json) {

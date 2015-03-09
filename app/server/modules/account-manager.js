@@ -215,14 +215,20 @@ exports.removeNetatmoAccessToken = function(email, callback)
 	}
 }
 
-exports.SaveDeviceListDB = function(email, chunk) {
+exports.SaveDeviceListDB = function(brand, email, chunk) {
 	//Save deviceList to databse
 	//Save netatmo credentials to mongoDb
 	try
 	{
 		chunk = JSON.parse(chunk);
 		accounts.findOne({email:email}, function(e, o){
-			o.NetatmoDeviceList = chunk;
+			
+			if(brand === 'Netatmo') {
+				o.NetatmoDeviceList = chunk;
+			} else if(brand === 'Telldus') {
+				o.TelldusDeviceList = chunk;
+			}
+
 			accounts.save(o, {safe: true}, function(err) {
 				console.log("Device list saved to database.");
 			});

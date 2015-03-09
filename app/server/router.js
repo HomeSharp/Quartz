@@ -270,9 +270,9 @@ module.exports = function(app) {
 					}
 
 					// Make iris devicelist request
-					IM.RequestDeviceList(access_token, function(chunk) {
+					IM.RequestNetatmoDeviceList(access_token, function(chunk) {
 
-						AM.SaveDeviceListDB(req.session.user.email, chunk);
+						AM.SaveDeviceListDB('Netatmo', req.session.user.email, chunk);
 
 						chunk = IM.syntaxHighlight(JSON.parse(chunk));
 						console.log(chunk);
@@ -347,6 +347,15 @@ module.exports = function(app) {
 			AM.CheckUserTelldusKeys(req.session.user.email, function(o, access_token) {
 				if (o === true)
 				{
+					IM.RequestTelldusDeviceList(access_token, function(chunk) {
+
+						//Now the whole device-list gets saved to database. the goal is just to save the devices which is chosen by the user.
+						AM.SaveDeviceListDB('Telldus', req.session.user.email, chunk);
+
+						chunk = IM.syntaxHighlight(JSON.parse(chunk));
+						console.log(chunk);
+					});
+
 					res.render('telldus', {  title: 'Your Telldus devices', TelldusConnected: true, domain: config.appConfigValues().domain });
 				}
 				else
