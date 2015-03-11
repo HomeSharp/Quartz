@@ -357,12 +357,18 @@ module.exports = function(app) {
 
 
 						chunkSyntaxed = IM.syntaxHighlight(JSON.parse(chunk));
-						console.log(chunkSyntaxed);
+						// console.log(chunkSyntaxed);
 					
 
 						// var testArray = ["device1", "device2", "device3"];
 
 						chunk = JSON.parse(chunk);
+
+						// console.log(chunk.device);
+
+						req.session.user.TelldusDevices = chunk.device;
+
+
 
 						res.render('telldus', {  title: 'Your Telldus devices', TelldusConnected: true, domain: config.appConfigValues().domain, devices: chunk.device });
 
@@ -394,18 +400,41 @@ module.exports = function(app) {
 	});
 
 	app.post('/brand/telldus/unlink', function(req, res){
-			// Removes the access keys for Telldus Live
-			AM.removeTelldusKeys(req.session.user.email, function(e, o){
-				if (e)
-				{
-					res.send('error-updating-account', 400);
-				}
-				else
-				{
-					req.session.user.TelldusKeys
-					res.send('ok', 200);
-				}
-			});
+		// Removes the access keys for Telldus Live
+		AM.removeTelldusKeys(req.session.user.email, function(e, o){
+			if (e)
+			{
+				res.send('error-updating-account', 400);
+			}
+			else
+			{
+				req.session.user.TelldusKeys
+				res.send('ok', 200);
+			}
+		});
+	});
+
+	app.post('/brand/telldus/addDeviceToDb', function(req, res){
+
+		var deviceId = req.body['deviceId'];
+		var devicesData = req.session.user.TelldusDevices;
+
+		for (var i = 0; i < devicesData.length; i++){
+		  if (devicesData[i].clientDeviceId == deviceId){
+		     device = devicesData[i];
+		  }
+		}
+
+		AM.addDeviceToUser(req.session.user.email, device, function(e, o){
+			if (e)
+			{
+				res.send('error-adding-device-to-db', 400);
+			}
+			else
+			{
+				res.send('ok', 200);
+			}
+		});
 	});
 
 	// This functionality for retrieving keys directly from Telldus has been cancelled for now, but devs. are welcome to finish it.

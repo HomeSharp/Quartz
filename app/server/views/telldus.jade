@@ -12,11 +12,22 @@ block content
 						p
 							button#btn-unlinkTelldus.btn.btn-danger.btn-xs Unlink account
 						h2 My devices
-						p All your available devices
 
-						ul
-							each device in devices
-								li=	device.name
+						div.col-md-4
+							p All your available devices
+
+							ul#allDevicesList
+								each device in devices
+									li	
+										<a href='#' class='addDevice' id='#{device.clientDeviceId}'>#{device.name}</a>
+
+						div.col-md-4
+							p ->
+
+						div.col-md-4
+							p Your selected devices
+
+							ul#userPickedDevicesList
 
 			else
 				div.row

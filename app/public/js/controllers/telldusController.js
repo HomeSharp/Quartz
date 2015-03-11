@@ -23,4 +23,39 @@ function TelldusController()
 		});
 	}
 
+
+
+	$('.addDevice').click(function(event){ that.addDevice(event); });
+
+	this.addDevice = function(event)
+	{		
+		var that = this;
+		$.ajax({
+			url: "/brand/telldus/addDeviceToDb",
+			type: "POST",
+			data: {deviceId: event.target.id},
+			success: function(data){
+				moveDeviceToUsersList(event.target.id);
+			},
+			error: function(jqXHR){
+				console.log(jqXHR.responseText+' :: '+jqXHR.statusText);
+			}
+		});
+
+	}
+
+
+	function moveDeviceToUsersList(id) {
+		var allDevicesList = document.getElementById('allDevicesList');
+		var userPickedDevicesList = document.getElementById('userPickedDevicesList');
+		var elementToMove = document.getElementById(id).parentNode;
+		allDevicesList.removeChild(elementToMove);
+		userPickedDevicesList.appendChild(elementToMove);
+	}
+
+	function removeDeviceFromUsersList(id) {
+
+
+	}
+
 }

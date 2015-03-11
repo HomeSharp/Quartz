@@ -307,6 +307,36 @@ exports.removeTelldusKeys = function(email, callback)
 	}
 }
 
+exports.addDeviceToUser = function(email, device, callback) {
+
+	
+	// Save Telldus Live keys to database
+	try
+	{
+		accounts.findOne({email:email}, function(e, o){
+			
+			//Insert device into collection of telldus-devices
+
+			// o.TelldusDevices = keys;
+			/*
+			accounts.save(o, {safe: true}, function(err) {
+				console.log("Telldus Device saved to databse.");
+			});
+
+*/
+			callback();
+
+		});
+	}
+	catch (error)
+	{
+		console.log(error);
+	}
+
+}
+
+
+
 /* private encryption & validation methods */
 
 var generateSalt = function()
