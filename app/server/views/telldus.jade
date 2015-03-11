@@ -12,7 +12,12 @@ block content
 						p
 							button#btn-unlinkTelldus.btn.btn-danger.btn-xs Unlink account
 						h2 My devices
-						p Coming soon
+						p All your available devices
+
+						ul
+							each device in devices
+								li=	device.name
+
 			else
 				div.row
 					div.col-md-8

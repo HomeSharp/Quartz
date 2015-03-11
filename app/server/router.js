@@ -350,13 +350,23 @@ module.exports = function(app) {
 					IM.RequestTelldusDeviceList(access_token, function(chunk) {
 
 						//Now the whole device-list gets saved to database. the goal is just to save the devices which is chosen by the user.
-						AM.SaveDeviceListDB('Telldus', req.session.user.email, chunk);
+						// AM.SaveDeviceListDB('Telldus', req.session.user.email, chunk);
 
-						chunk = IM.syntaxHighlight(JSON.parse(chunk));
-						console.log(chunk);
+
+						//Show devices for user in UI
+
+
+						chunkSyntaxed = IM.syntaxHighlight(JSON.parse(chunk));
+						console.log(chunkSyntaxed);
+					
+
+						// var testArray = ["device1", "device2", "device3"];
+
+						chunk = JSON.parse(chunk);
+
+						res.render('telldus', {  title: 'Your Telldus devices', TelldusConnected: true, domain: config.appConfigValues().domain, devices: chunk.device });
+
 					});
-
-					res.render('telldus', {  title: 'Your Telldus devices', TelldusConnected: true, domain: config.appConfigValues().domain });
 				}
 				else
 				{
