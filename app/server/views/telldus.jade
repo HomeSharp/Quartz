@@ -28,7 +28,9 @@ block content
 							p Your selected devices
 
 							ul#userPickedDevicesList
-
+								each device in pickedDevices
+									li	
+										<a href='#' class='removeDevice' id='#{device.clientDeviceId}'>#{device.name}</a>
 			else
 				div.row
 					div.col-md-8

@@ -349,28 +349,51 @@ module.exports = function(app) {
 				{
 					IM.RequestTelldusDeviceList(access_token, function(chunk) {
 
-						//Now the whole device-list gets saved to database. the goal is just to save the devices which is chosen by the user.
-						// AM.SaveDeviceListDB('Telldus', req.session.user.email, chunk);
-
+						chunk = JSON.parse(chunk);
 
 						//Show devices for user in UI
 
+						//Filter deviceList. get oly devices which is not registered to users mongoDb
 
-						chunkSyntaxed = IM.syntaxHighlight(JSON.parse(chunk));
-						// console.log(chunkSyntaxed);
-					
+						var deviceIds = [];
 
-						// var testArray = ["device1", "device2", "device3"];
+						AM.getUserPickedTelldusDevices(req.session.user.email, function(pickedDevicesList) {
 
-						chunk = JSON.parse(chunk);
+							if(pickedDevicesList == "") {
+								pickedDevicesList = JSON.parse('{"devices": []}');
+							}
 
-						// console.log(chunk.device);
+							for (var i = 0; i < pickedDevicesList.devices.length; i++) {
+								deviceIds.push(pickedDevicesList.devices[i].clientDeviceId);
+							}		
 
-						req.session.user.TelldusDevices = chunk.device;
+							var newList = JSON.parse('{ "devices": []}');			
+							var addToList;
+							var usersPickedList = JSON.parse('{ "devices": []}');
 
+							for (var i = 0; i < chunk.device.length; i++) {
+								for (var e = 0; e < deviceIds.length; e++) {
+									if(deviceIds[e] == chunk.device[i].clientDeviceId) {
+										usersPickedList.devices.push(chunk.device[i]);
+										addToList = false;
+									}
+								}
 
+								if(addToList) {
+									newList.devices.push(chunk.device[i]);
+								}
+								addToList = true;
+							}
 
-						res.render('telldus', {  title: 'Your Telldus devices', TelldusConnected: true, domain: config.appConfigValues().domain, devices: chunk.device });
+							// chunkSyntaxed = IM.syntaxHighlight(chunk);
+
+							req.session.user.TelldusDevices = newList.devices;
+
+							console.log(usersPickedList);
+
+							res.render('telldus', {  title: 'Your Telldus devices', TelldusConnected: true, domain: config.appConfigValues().domain, devices: newList.devices, pickedDevices: usersPickedList.devices });
+
+						});
 
 					});
 				}

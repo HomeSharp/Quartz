@@ -338,6 +338,24 @@ exports.addDeviceToUser = function(email, device, callback) {
 
 }
 
+exports.getUserPickedTelldusDevices = function(email, callback) {
+
+	try
+	{
+		accounts.findOne({email:email}, function(e, o){
+
+			callback(o.TelldusDeviceList);
+
+		});
+	}
+	catch (error)
+	{
+		console.log(error);
+	}
+
+}
+
+
 
 /* private encryption & validation methods */
 
