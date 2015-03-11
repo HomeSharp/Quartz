@@ -315,8 +315,6 @@ exports.addDeviceToUser = function(email, device, callback) {
 	{
 		accounts.findOne({email:email}, function(e, o){
 
-			var tempJsonString;
-
 			if(o.TelldusDeviceList == "" || o.TelldusDeviceList == null) {
 				o.TelldusDeviceList = JSON.parse('{ "devices": []}');
 			} 
@@ -336,6 +334,30 @@ exports.addDeviceToUser = function(email, device, callback) {
 		console.log(error);
 	}
 
+}
+
+exports.removeDeviceFromUser = function(email, deviceId, callback) {
+	accounts.findOne({email:email}, function(e, o){
+
+			if(o.TelldusDeviceList == "" || o.TelldusDeviceList == null) {
+				o.TelldusDeviceList = JSON.parse('{ "devices": []}');
+			} 
+			
+			// o.TelldusDeviceList.devices.push(device);
+
+			for (var i = 0; i < o.TelldusDeviceList.devices.length; i++) {
+				if(o.TelldusDeviceList.devices[i].clientDeviceId == deviceId) {
+					o.TelldusDeviceList.devices.splice(i, 1);
+				}	
+			}
+			
+			accounts.save(o, {safe: true}, function(err) {
+				console.log("Telldus Device saved to databse.");
+			});
+
+			callback();
+
+		});
 }
 
 exports.getUserPickedTelldusDevices = function(email, callback) {

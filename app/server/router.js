@@ -389,8 +389,6 @@ module.exports = function(app) {
 
 							req.session.user.TelldusDevices = newList.devices;
 
-							console.log(usersPickedList);
-
 							res.render('telldus', {  title: 'Your Telldus devices', TelldusConnected: true, domain: config.appConfigValues().domain, devices: newList.devices, pickedDevices: usersPickedList.devices });
 
 						});
@@ -449,6 +447,22 @@ module.exports = function(app) {
 		}
 
 		AM.addDeviceToUser(req.session.user.email, device, function(e, o){
+			if (e)
+			{
+				res.send('error-adding-device-to-db', 400);
+			}
+			else
+			{
+				res.send('ok', 200);
+			}
+		});
+	});
+
+	app.post('/brand/telldus/removeDeviceFromDb', function(req, res) {
+
+		var deviceId = req.body['deviceId'];
+
+		AM.removeDeviceFromUser(req.session.user.email, deviceId, function(e, o){
 			if (e)
 			{
 				res.send('error-adding-device-to-db', 400);
