@@ -351,6 +351,8 @@ module.exports = function(app) {
 
 						chunk = JSON.parse(chunk);
 
+						//console.log(chunk);
+
 						//Show devices for user in UI
 
 						//Filter deviceList. get oly devices which is not registered to users mongoDb
@@ -365,13 +367,13 @@ module.exports = function(app) {
 
 							for (var i = 0; i < pickedDevicesList.devices.length; i++) {
 								deviceIds.push(pickedDevicesList.devices[i].clientDeviceId);
-							}		
+							}
 
-							var newList = JSON.parse('{ "devices": []}');			
+							var newList = JSON.parse('{ "devices": []}');
 							var addToList;
 							var usersPickedList = JSON.parse('{ "devices": []}');
 
-							console.log(chunk);
+							console.log(chunk.devices[0]);
 
 							for (var i = 0; i < chunk.devices.length; i++) {
 								for (var e = 0; e < deviceIds.length; e++) {
