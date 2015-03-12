@@ -249,7 +249,53 @@ module.exports = function(app) {
 					// If a token exists and is fully valid
 					if (o == true)
 					{
-								res.render('netatmo', {  title: 'Your Netatmo devices', state_token: csrf_token, NetatmoConnected: true });
+						// Make iris devicelist request
+						IM.RequestNetatmoDeviceList(access_token, function(chunk) {
+
+							chunk = JSON.parse(chunk);
+							console.log(chunk);
+
+							/*
+							var deviceIds = [];
+
+							AM.getUserPickedTelldusDevices(req.session.user.email, function(pickedDevicesList) {
+
+								if(pickedDevicesList == "" || pickedDevicesList == undefined) {
+									pickedDevicesList = JSON.parse('{"devices": []}');
+								}
+
+								for (var i = 0; i < pickedDevicesList.devices.length; i++) {
+									deviceIds.push(pickedDevicesList.devices[i].deviceId);
+								}
+
+								var newList = JSON.parse('{ "devices": []}');
+								var addToList = true;
+								var usersPickedList = JSON.parse('{ "devices": []}');
+
+								for (var i = 0; i < chunk.devices.length; i++) {
+									for (var e = 0; e < deviceIds.length; e++) {
+										if(deviceIds[e] == chunk.devices[i].deviceId) {
+											usersPickedList.devices.push(chunk.devices[i]);
+											addToList = false;
+										}
+									}
+
+									if(addToList) {
+										newList.devices.push(chunk.devices[i]);
+									}
+									addToList = true;
+								}
+
+								// chunkSyntaxed = IM.syntaxHighlight(chunk);
+
+								req.session.user.TelldusDevices = newList.devices;
+								*/
+
+
+							//AM.SaveDeviceListDB('Netatmo', req.session.user.email, chunk);
+							res.render('netatmo', {  title: 'Your Netatmo devices', state_token: csrf_token, NetatmoConnected: true, devices: chunk });
+						});
+
 					}
 
 					// If the token is outdated, a refresh will be done
@@ -266,17 +312,9 @@ module.exports = function(app) {
 							});
 						});
 
-						res.render('netatmo', {  title: 'Connect to Netatmo', state_token: csrf_token, NetatmoConnected: true });
+						//res.render('netatmo', {  title: 'Connect to Netatmo', state_token: csrf_token, NetatmoConnected: true });
+						res.redirect('/brand/netatmo/');
 					}
-
-					// Make iris devicelist request
-					IM.RequestNetatmoDeviceList(access_token, function(chunk) {
-
-						AM.SaveDeviceListDB('Netatmo', req.session.user.email, chunk);
-
-						chunk = IM.syntaxHighlight(JSON.parse(chunk));
-						console.log(chunk);
-					});
 				}
 				else
 				{

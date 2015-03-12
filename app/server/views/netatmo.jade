@@ -23,7 +23,26 @@ block content
 					p &nbsp;
 					div.col-md-4
 						h4 All your available devices
-						
+
+						ul#allDevicesList.bg-info
+							each device in devices
+								- each module in device
+									li
+										<a href='#' class='addDevice' id='#{module.deviceId}'>#{module.moduleName}</a>
+					div.col-md-4
+						p.text-center
+							span.glyphicon.glyphicon-arrow-left.text-center &nbsp;
+							span.glyphicon.glyphicon-arrow-right.text-center
+
+					div.col-md-4
+						h4 Your selected devices
+
+						ul#userPickedDevicesList.bg-success
+							li
+
+
+					p &nbsp;
+
 			else
 				div.row
 					div.col-md-8
