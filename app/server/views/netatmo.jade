@@ -5,12 +5,19 @@ block content
 
 		div.container.top-push
 			if NetatmoConnected == true
-				h1 Netatmo
-				p You have authenticated with success, your Netatmo devices will show up here soon.
-				p
-					button#btn-unlinkNetatmo.btn.btn-danger.btn-xs Unlink account
-				h2 My devices
-				p Coming soon
+				div.row
+					div.col-md-8
+						h1 My Netatmo devices
+						p These are your Netatmo devices. To decide which ones you'd like to be shown here, just click on a device to the left and it's added to HomeSharp. No longer wish to see the details for a device? Just do the opposite, click a device to the right to remove it from HomeSharp.
+					div.col-md-4
+						h2 Handle sync
+						p You have authenticated with success, your Netatmo devices are shown below.
+						p
+							button#btn-unlinkNetatmo.btn.btn-danger.btn-xs Unlink account
+				div.row
+					p &nbsp;
+					div.col-md-4
+						h4 All your available devices
 			else
 				h1 Sync with Netatmo
 				div#Connect

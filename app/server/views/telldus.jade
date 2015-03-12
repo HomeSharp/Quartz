@@ -14,6 +14,21 @@ block content
 						p You have authenticated with success, your Telldus devices are shown below.
 						p
 							button#btn-unlinkTelldus.btn.btn-danger.btn-xs Unlink account
+
+
+				div.row
+					div.col-md-12
+						h2 Current stats
+
+				div.row
+					each device in pickedDevices
+						div.col-md-3
+							h4 #{device.moduleName}
+							each meassure in device.meassures
+								p
+									strong #{meassure.type}
+								p.small #{meassure.value}&nbsp;#{meassure.unit}
+
 				div.row
 					p &nbsp;
 					div.col-md-4
@@ -36,6 +51,9 @@ block content
 							each device in pickedDevices
 								li
 									<a href='#' class='removeDevice' id='#{device.deviceId}'>#{device.moduleName}</a>
+
+					p &nbsp;
+
 			else
 				div.row
 					div.col-md-8
