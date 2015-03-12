@@ -359,7 +359,7 @@ module.exports = function(app) {
 
 						AM.getUserPickedTelldusDevices(req.session.user.email, function(pickedDevicesList) {
 
-							if(pickedDevicesList == "") {
+							if(pickedDevicesList == "" || pickedDevicesList == undefined) {
 								pickedDevicesList = JSON.parse('{"devices": []}');
 							}
 
@@ -371,16 +371,18 @@ module.exports = function(app) {
 							var addToList;
 							var usersPickedList = JSON.parse('{ "devices": []}');
 
-							for (var i = 0; i < chunk.device.length; i++) {
+							console.log(chunk);
+
+							for (var i = 0; i < chunk.devices.length; i++) {
 								for (var e = 0; e < deviceIds.length; e++) {
-									if(deviceIds[e] == chunk.device[i].clientDeviceId) {
-										usersPickedList.devices.push(chunk.device[i]);
+									if(deviceIds[e] == chunk.devices[i].clientDeviceId) {
+										usersPickedList.devices.push(chunk.devices[i]);
 										addToList = false;
 									}
 								}
 
 								if(addToList) {
-									newList.devices.push(chunk.device[i]);
+									newList.devices.push(chunk.devices[i]);
 								}
 								addToList = true;
 							}
