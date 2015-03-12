@@ -351,11 +351,8 @@ module.exports = function(app) {
 
 						chunk = JSON.parse(chunk);
 
-						//console.log(chunk);
-
-						//Show devices for user in UI
-
-						//Filter deviceList. get oly devices which is not registered to users mongoDb
+						// Show devices for user in UI
+						// Filter deviceList, get only devices which is not registered to users mongoDb
 
 						var deviceIds = [];
 
@@ -368,8 +365,6 @@ module.exports = function(app) {
 							for (var i = 0; i < pickedDevicesList.devices.length; i++) {
 								deviceIds.push(pickedDevicesList.devices[i].deviceId);
 							}
-
-							console.log(deviceIds);
 
 							var newList = JSON.parse('{ "devices": []}');
 							var addToList = true;
@@ -392,14 +387,9 @@ module.exports = function(app) {
 							// chunkSyntaxed = IM.syntaxHighlight(chunk);
 
 							req.session.user.TelldusDevices = newList.devices;
-
-							//console.log(newList);
-							console.log(usersPickedList);
-
 							res.render('telldus', {  title: 'Your Telldus devices', TelldusConnected: true, domain: config.appConfigValues().domain, devices: newList.devices, pickedDevices: usersPickedList.devices });
 
 						});
-
 					});
 				}
 				else

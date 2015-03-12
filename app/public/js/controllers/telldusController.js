@@ -24,7 +24,7 @@ function TelldusController()
 	}
 }
 
-
+// Function for handling user clicks and the actions related to it
 function setOnclicks() {
 	var allDevicesList = document.getElementById('allDevicesList').childNodes;
 
@@ -43,13 +43,13 @@ function setOnclicks() {
 
 function addEvent(element, event_name, func) {
     if (element.addEventListener) {
-        element.addEventListener(event_name, func, false); 
+        element.addEventListener(event_name, func, false);
     } else if (element.attachEvent)  {
         element.attachEvent("on"+event_name, func);
     }
 }
 
-
+// Add the clicked device to the devicelist to be tracked by HomeSharp
 function addDevice(event)
 {
 	var that = this;
@@ -66,9 +66,9 @@ function addDevice(event)
 	});
 }
 
-
+// Remove the clicked device from the devicelist tracked by HomeSharp
 function removeDevice(event)
-{		
+{
 	var that = this;
 	$.ajax({
 		url: "/brand/telldus/removeDeviceFromDb",
@@ -83,7 +83,7 @@ function removeDevice(event)
 	});
 }
 
-
+// Function for moving the clicked item from the "not tracked list" to the "tracked list"
 function moveDeviceToUsersList(id) {
 	var allDevicesList = document.getElementById('allDevicesList');
 	var userPickedDevicesList = document.getElementById('userPickedDevicesList');
@@ -93,12 +93,13 @@ function moveDeviceToUsersList(id) {
 
 	removeHandler(elementToMoveChild, addDevice);
 	elementToMoveChild.onclick = function(event){ removeDevice(event); };
-	
+
 	elementToMove.appendChild(elementToMoveChild);
 	allDevicesList.removeChild(elementToMove);
 	userPickedDevicesList.appendChild(elementToMove);
 }
 
+// Doing the opposite of the above function
 function removeDeviceFromUsersList(id) {
 	var allDevicesList = document.getElementById('allDevicesList');
 	var userPickedDevicesList = document.getElementById('userPickedDevicesList');

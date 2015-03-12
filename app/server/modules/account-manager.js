@@ -1,9 +1,9 @@
 var config = require('./config.js');
-
 var crypto 		= require('crypto');
 var MongoDB 	= require('mongodb').Db;
 var Server 		= require('mongodb').Server;
 var moment 		= require('moment');
+
 
 /* establish the database connection */
 
@@ -20,6 +20,7 @@ var db = new MongoDB(config.databaseConfigValues().dbName, new Server(config.dat
 });
 
 var accounts = db.collection('accounts');
+
 
 /* Login validation methods */
 
@@ -112,6 +113,7 @@ exports.updatePassword = function(email, newPass, callback)
 	});
 }
 
+
 /* account lookup methods */
 
 exports.deleteAccount = function(id, callback)
@@ -146,31 +148,12 @@ exports.delAllRecords = function(callback)
 }
 
 
-exports.saveCredentials = function(response_chunk, email, callback)
-{
-	try {
-		//Save netatmo credentials to mongoDb
-		accounts.findOne({email:email}, function(e, o){
-			o.NetatmoAccessToken = response_chunk.access_token;
-			o.NetatmoRefreshToken = response_chunk.refresh_token;
-			o.NetatmoAccessTokenTime = new Date().getTime() / 1000 + response_chunk.expires_in;
-
-			accounts.save(o, {safe: true}, function(err) {
-				console.log("Access token saved to database.");
-				callback();
-			});
-		});
-	} catch (e) {
-		console.log(e);
-	}
-}
-
 /* Actions for Netatmo */
 
 exports.CheckUserNetatmoToken = function(email, callback)
 {
 	try {
-		//Check at mongoDb if user has got any netatno credentials
+		// Check database if user has got any Netatmo credentials
 		accounts.findOne({email:email}, function(e, o) {
 			if (o.NetatmoAccessToken != null && o.NetatmoAccessToken != ""){
 				if(o.NetatmoAccessTokenTime <= new Date().getTime() / 1000)
@@ -197,6 +180,7 @@ exports.CheckUserNetatmoToken = function(email, callback)
 
 exports.removeNetatmoAccessToken = function(email, callback)
 {
+	// Removes the syncronization of Netatmo with HomeSharp, removing all user credentials and data related to Netatmo
 	try {
 		accounts.findOne({email:email}, function(e, o){
 			if (e){
@@ -209,6 +193,25 @@ exports.removeNetatmoAccessToken = function(email, callback)
 							o.NetatmoDeviceList = "";
 							accounts.save(o, {safe: true}, callback);
 			}
+		});
+	} catch (e) {
+		console.log(e);
+	}
+}
+
+exports.saveCredentials = function(response_chunk, email, callback)
+{
+	// Save Netatmo credentials to mongoDb
+	try {
+		accounts.findOne({email:email}, function(e, o){
+			o.NetatmoAccessToken = response_chunk.access_token;
+			o.NetatmoRefreshToken = response_chunk.refresh_token;
+			o.NetatmoAccessTokenTime = new Date().getTime() / 1000 + response_chunk.expires_in;
+
+			accounts.save(o, {safe: true}, function(err) {
+				console.log("Access token saved to database.");
+				callback();
+			});
 		});
 	} catch (e) {
 		console.log(e);
@@ -240,13 +243,14 @@ exports.SaveDeviceListDB = function(brand, email, chunk) {
 	}
 }
 
+
 /* Actions for Telldus */
 
 exports.CheckUserTelldusKeys = function(email, callback)
 {
+	//Check database if user has got any telldus credentials
 	try
 	{
-		//Check at mongoDb if user has got any telldus credentials
 		accounts.findOne({email:email}, function(e, o) {
 			if (o.TelldusKeys != null && o.TelldusKeys != "")
 			{
@@ -308,9 +312,7 @@ exports.removeTelldusKeys = function(email, callback)
 }
 
 exports.addDeviceToUser = function(email, device, callback) {
-
-
-	// Save Telldus Live keys to database
+	// Save a Telldus device to the database, to be tracked by HomeSharp
 	try
 	{
 		accounts.findOne({email:email}, function(e, o){
@@ -337,44 +339,40 @@ exports.addDeviceToUser = function(email, device, callback) {
 }
 
 exports.removeDeviceFromUser = function(email, deviceId, callback) {
+	// Remove a Telldus device from the database, thus ending the tracking of it's stats
 	accounts.findOne({email:email}, function(e, o){
 
-			if(o.TelldusDeviceList == "" || o.TelldusDeviceList == null) {
-				o.TelldusDeviceList = JSON.parse('{ "devices": []}');
+		if(o.TelldusDeviceList == "" || o.TelldusDeviceList == null) {
+			o.TelldusDeviceList = JSON.parse('{ "devices": []}');
+		}
+
+		for (var i = 0; i < o.TelldusDeviceList.devices.length; i++) {
+			if(o.TelldusDeviceList.devices[i].deviceId == deviceId) {
+				o.TelldusDeviceList.devices.splice(i, 1);
 			}
+		}
 
-			// o.TelldusDeviceList.devices.push(device);
-
-			for (var i = 0; i < o.TelldusDeviceList.devices.length; i++) {
-				if(o.TelldusDeviceList.devices[i].deviceId == deviceId) {
-					o.TelldusDeviceList.devices.splice(i, 1);
-				}
-			}
-
-			accounts.save(o, {safe: true}, function(err) {
-				console.log("Telldus device removed from databse.");
-			});
-
-			callback();
-
+		accounts.save(o, {safe: true}, function(err) {
+			console.log("Telldus device removed from databse.");
 		});
+
+		callback();
+
+	});
 }
 
 exports.getUserPickedTelldusDevices = function(email, callback) {
-	//console.log("hej")
+	// Retrieve a list of the devices the user has chosen HomeSharp to track
 	try
 	{
 		accounts.findOne({email:email}, function(e, o){
-
 			callback(o.TelldusDeviceList);
-
 		});
 	}
 	catch (error)
 	{
 		console.log(error);
 	}
-
 }
 
 

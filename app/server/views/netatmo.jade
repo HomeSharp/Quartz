@@ -14,16 +14,24 @@ block content
 						p You have authenticated with success, your Netatmo devices are shown below.
 						p
 							button#btn-unlinkNetatmo.btn.btn-danger.btn-xs Unlink account
+
+				div.row
+					div.col-md-12
+						h2 Current stats
+
 				div.row
 					p &nbsp;
 					div.col-md-4
 						h4 All your available devices
+						
 			else
-				h1 Sync with Netatmo
-				div#Connect
-					p There are currently no Netatmo-account synced with HomeSharp.
-					p
-						a.btn.btn-default(role="button", href='https://api.netatmo.net/oauth2/authorize?client_id=54c64eaa485a8812863eadfd&redirect_uri=#{domain}/brand/netatmo&scope=read_station%20read_thermostat%20write_thermostat&state=#{state_token}') Sync now
+				div.row
+					div.col-md-8
+						h1 Sync with Netatmo
+						div#Connect
+							p There are currently no Netatmo-account synced with HomeSharp.
+							p
+								a.btn.btn-default(role="button", href='https://api.netatmo.net/oauth2/authorize?client_id=54c64eaa485a8812863eadfd&redirect_uri=#{domain}/brand/netatmo&scope=read_station%20read_thermostat%20write_thermostat&state=#{state_token}') Sync now
 
 block scripts
 	script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js')

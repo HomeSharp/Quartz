@@ -3,6 +3,8 @@ var querystring = require('querystring');
 var http = require('http');
 var config = require('./config.js');
 
+/* For handling Netatmo */
+
 exports.RequestNetatmoDeviceList = function(access_token, callback)
 {
   //console.log(access_token + "hej");
@@ -36,6 +38,7 @@ exports.RequestNetatmoDeviceList = function(access_token, callback)
 
 }
 
+/* For handling Telldus */
 
 exports.RequestTelldusDeviceList = function(keys, callback)
 {
@@ -74,8 +77,7 @@ exports.RequestTelldusDeviceList = function(keys, callback)
 
 }
 
-
-
+/* Other functions */
 
 exports.syntaxHighlight = function(json) {
     if (typeof json != 'string') {
