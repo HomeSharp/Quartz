@@ -369,13 +369,15 @@ module.exports = function(app) {
 								deviceIds.push(pickedDevicesList.devices[i].deviceId);
 							}
 
+							console.log(deviceIds);
+
 							var newList = JSON.parse('{ "devices": []}');
 							var addToList = true;
 							var usersPickedList = JSON.parse('{ "devices": []}');
 
 							for (var i = 0; i < chunk.devices.length; i++) {
 								for (var e = 0; e < deviceIds.length; e++) {
-									if(deviceIds[e] == chunk.devices[i].clientDeviceId) {
+									if(deviceIds[e] == chunk.devices[i].deviceId) {
 										usersPickedList.devices.push(chunk.devices[i]);
 										addToList = false;
 									}
@@ -391,7 +393,8 @@ module.exports = function(app) {
 
 							req.session.user.TelldusDevices = newList.devices;
 
-							console.log(newList);
+							//console.log(newList);
+							console.log(usersPickedList);
 
 							res.render('telldus', {  title: 'Your Telldus devices', TelldusConnected: true, domain: config.appConfigValues().domain, devices: newList.devices, pickedDevices: usersPickedList.devices });
 
@@ -445,7 +448,7 @@ module.exports = function(app) {
 		var devicesData = req.session.user.TelldusDevices;
 
 		for (var i = 0; i < devicesData.length; i++){
-		  if (devicesData[i].clientDeviceId == deviceId){
+		  if (devicesData[i].deviceId == deviceId){
 		     device = devicesData[i];
 		  }
 		}

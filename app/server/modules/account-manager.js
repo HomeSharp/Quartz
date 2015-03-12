@@ -222,7 +222,7 @@ exports.SaveDeviceListDB = function(brand, email, chunk) {
 	{
 		chunk = JSON.parse(chunk);
 		accounts.findOne({email:email}, function(e, o){
-			
+
 			if(brand === 'Netatmo') {
 				o.NetatmoDeviceList = chunk;
 			} else if(brand === 'Telldus') {
@@ -317,10 +317,10 @@ exports.addDeviceToUser = function(email, device, callback) {
 
 			if(o.TelldusDeviceList == "" || o.TelldusDeviceList == null) {
 				o.TelldusDeviceList = JSON.parse('{ "devices": []}');
-			} 
-			
+			}
+
 			o.TelldusDeviceList.devices.push(device);
-			
+
 			accounts.save(o, {safe: true}, function(err) {
 				console.log("Telldus Device saved to databse.");
 			});
@@ -341,18 +341,18 @@ exports.removeDeviceFromUser = function(email, deviceId, callback) {
 
 			if(o.TelldusDeviceList == "" || o.TelldusDeviceList == null) {
 				o.TelldusDeviceList = JSON.parse('{ "devices": []}');
-			} 
-			
+			}
+
 			// o.TelldusDeviceList.devices.push(device);
 
 			for (var i = 0; i < o.TelldusDeviceList.devices.length; i++) {
-				if(o.TelldusDeviceList.devices[i].clientDeviceId == deviceId) {
+				if(o.TelldusDeviceList.devices[i].deviceId == deviceId) {
 					o.TelldusDeviceList.devices.splice(i, 1);
-				}	
+				}
 			}
-			
+
 			accounts.save(o, {safe: true}, function(err) {
-				console.log("Telldus Device saved to databse.");
+				console.log("Telldus device removed from databse.");
 			});
 
 			callback();
@@ -361,7 +361,7 @@ exports.removeDeviceFromUser = function(email, deviceId, callback) {
 }
 
 exports.getUserPickedTelldusDevices = function(email, callback) {
-
+	//console.log("hej")
 	try
 	{
 		accounts.findOne({email:email}, function(e, o){

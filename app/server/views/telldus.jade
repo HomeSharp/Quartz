@@ -7,28 +7,32 @@ block content
 			if TelldusConnected == true
 				div.row
 					div.col-md-8
-						h1 Telldus
-						p You have authenticated with success, your Telldus devices will show up here soon.
+						h1 My Telldus devices
+						p These are your Telldus devices. To decide which ones you'd like to be shown here, just click on a device to the left and it's added to HomeSharp. No longer wish to see the details for a device? Just do the opposite, click a device to the right to remove it from HomeSharp.
+					div.col-md-4
+						h2 Handle sync
+						p You have authenticated with success, your Telldus devices are shown below.
 						p
 							button#btn-unlinkTelldus.btn.btn-danger.btn-xs Unlink account
-						h2 My devices
-
 				div.row
+					p &nbsp;
 					div.col-md-4
-						p All your available devices
+						h4 All your available devices
 
-						ul#allDevicesList
+						ul#allDevicesList.bg-info
 							each device in devices
 								li
 									<a href='#' class='addDevice' id='#{device.deviceId}'>#{device.moduleName}</a>
 
 					div.col-md-4
-						span.glyphicon.glyphicon-arrow-right
+						p.text-center
+							span.glyphicon.glyphicon-arrow-left.text-center &nbsp;
+							span.glyphicon.glyphicon-arrow-right.text-center
 
 					div.col-md-4
-						p Your selected devices
+						h4 Your selected devices
 
-						ul#userPickedDevicesList
+						ul#userPickedDevicesList.bg-success
 							each device in pickedDevices
 								li
 									<a href='#' class='removeDevice' id='#{device.deviceId}'>#{device.moduleName}</a>
