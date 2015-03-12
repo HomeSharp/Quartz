@@ -366,14 +366,12 @@ module.exports = function(app) {
 							}
 
 							for (var i = 0; i < pickedDevicesList.devices.length; i++) {
-								deviceIds.push(pickedDevicesList.devices[i].clientDeviceId);
+								deviceIds.push(pickedDevicesList.devices[i].deviceId);
 							}
 
 							var newList = JSON.parse('{ "devices": []}');
-							var addToList;
+							var addToList = true;
 							var usersPickedList = JSON.parse('{ "devices": []}');
-
-							console.log(chunk.devices[0]);
 
 							for (var i = 0; i < chunk.devices.length; i++) {
 								for (var e = 0; e < deviceIds.length; e++) {
@@ -392,6 +390,8 @@ module.exports = function(app) {
 							// chunkSyntaxed = IM.syntaxHighlight(chunk);
 
 							req.session.user.TelldusDevices = newList.devices;
+
+							console.log(newList);
 
 							res.render('telldus', {  title: 'Your Telldus devices', TelldusConnected: true, domain: config.appConfigValues().domain, devices: newList.devices, pickedDevices: usersPickedList.devices });
 

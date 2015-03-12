@@ -13,24 +13,25 @@ block content
 							button#btn-unlinkTelldus.btn.btn-danger.btn-xs Unlink account
 						h2 My devices
 
-						div.col-md-4
-							p All your available devices
+				div.row
+					div.col-md-4
+						p All your available devices
 
-							ul#allDevicesList
-								each device in devices
-									li	
-										<a href='#' class='addDevice' id='#{device.clientDeviceId}'>#{device.name}</a>
+						ul#allDevicesList
+							each device in devices
+								li
+									<a href='#' class='addDevice' id='#{device.deviceId}'>#{device.moduleName}</a>
 
-						div.col-md-4
-							p ->
+					div.col-md-4
+						span.glyphicon.glyphicon-arrow-right
 
-						div.col-md-4
-							p Your selected devices
+					div.col-md-4
+						p Your selected devices
 
-							ul#userPickedDevicesList
-								each device in pickedDevices
-									li	
-										<a href='#' class='removeDevice' id='#{device.clientDeviceId}'>#{device.name}</a>
+						ul#userPickedDevicesList
+							each device in pickedDevices
+								li
+									<a href='#' class='removeDevice' id='#{device.deviceId}'>#{device.moduleName}</a>
 			else
 				div.row
 					div.col-md-8
