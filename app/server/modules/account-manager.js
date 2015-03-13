@@ -167,7 +167,7 @@ exports.addNetatmoDeviceToUser = function(email, device, callback) {
 			});
 
 			callback();
-			
+
 		});
 	}
 	catch (error)
@@ -238,6 +238,29 @@ exports.removeNetatmoAccessToken = function(email, callback)
 	} catch (e) {
 		console.log(e);
 	}
+}
+
+exports.removeNetatmoDeviceFromUser = function(email, deviceId, callback) {
+	// Remove a Netatmo device from the database, thus ending the tracking of it's stats
+	accounts.findOne({email:email}, function(e, o){
+
+		if(o.NetatmoDeviceList == "" || o.NetatmoDeviceList == null) {
+			o.NetatmoDeviceList = JSON.parse('{ "devices": []}');
+		}
+
+		for (var i = 0; i < o.NetatmoDeviceList.devices.length; i++) {
+			if(o.NetatmoDeviceList.devices[i].deviceId == deviceId) {
+				o.NetatmoDeviceList.devices.splice(i, 1);
+			}
+		}
+
+		accounts.save(o, {safe: true}, function(err) {
+			console.log("Netatmo device removed from database.");
+		});
+
+		callback();
+
+	});
 }
 
 exports.saveCredentials = function(response_chunk, email, callback)
@@ -365,7 +388,7 @@ exports.addDeviceToUser = function(email, device, callback) {
 			o.TelldusDeviceList.devices.push(device);
 
 			accounts.save(o, {safe: true}, function(err) {
-				console.log("Telldus Device saved to databse.");
+				console.log("Telldus Device saved to database.");
 			});
 
 			callback();
@@ -394,7 +417,7 @@ exports.removeDeviceFromUser = function(email, deviceId, callback) {
 		}
 
 		accounts.save(o, {safe: true}, function(err) {
-			console.log("Telldus device removed from databse.");
+			console.log("Telldus device removed from database.");
 		});
 
 		callback();

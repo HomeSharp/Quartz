@@ -379,7 +379,23 @@ module.exports = function(app) {
 		AM.addNetatmoDeviceToUser(req.session.user.email, device, function(e, o){
 			if (e)
 			{
-				res.send('error-adding-device-to-db', 400);
+				res.send('error-adding-device-from-db', 400);
+			}
+			else
+			{
+				res.send('ok', 200);
+			}
+		});
+	});
+
+	app.post('/brand/netatmo/removeDeviceFromDb', function(req, res) {
+
+		var deviceId = req.body['deviceId'];
+
+		AM.removeNetatmoDeviceFromUser(req.session.user.email, deviceId, function(e, o){
+			if (e)
+			{
+				res.send('error-removing-device-from-db', 400);
 			}
 			else
 			{
@@ -518,7 +534,7 @@ module.exports = function(app) {
 		AM.removeDeviceFromUser(req.session.user.email, deviceId, function(e, o){
 			if (e)
 			{
-				res.send('error-adding-device-to-db', 400);
+				res.send('error-removing-device-from-db', 400);
 			}
 			else
 			{

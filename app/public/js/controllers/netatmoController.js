@@ -70,10 +70,9 @@ function addDevice(event)
 // Remove the clicked device from the devicelist tracked by HomeSharp
 function removeDevice(event)
 {
-	/*
 	var that = this;
 	$.ajax({
-		url: "/brand/telldus/removeDeviceFromDb",
+		url: "/brand/netatmo/removeDeviceFromDb",
 		type: "POST",
 		data: {deviceId: event.target.id},
 		success: function(data){
@@ -83,7 +82,6 @@ function removeDevice(event)
 			console.log(jqXHR.responseText+' :: '+jqXHR.statusText);
 		}
 	});
-	*/
 }
 
 // Function for moving the clicked item from the "not tracked list" to the "tracked list"
