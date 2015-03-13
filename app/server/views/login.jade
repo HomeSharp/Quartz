@@ -31,11 +31,15 @@ block content
 					button(type="submit").btn.btn-default
 						span.glyphicon.glyphicon-lock
 						|  Sign in
+					&nbsp;&nbsp;
+					a(href='/signup').btn.btn-default#create-account
+						span.glyphicon.glyphicon-user
+						|  Create an account
 					div.btm-links
 						// p
 						// a(href='#')#forgot-password Forgot Your Password?
 						p
-						a(href='/signup')#create-account Create An Account
+
 
 	include modals/alert
 	include modals/lost-password
