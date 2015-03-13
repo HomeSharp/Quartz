@@ -20,6 +20,15 @@ block content
 						h2 Current stats
 
 				div.row
+					each device in pickedDevices
+						div.col-md-3
+							h4 #{device.moduleName}
+							each meassure in device.meassures
+								p
+									strong #{meassure.type}
+								p.small #{meassure.value}&nbsp;#{meassure.unit}
+
+				div.row
 					p &nbsp;
 					div.col-md-4
 						h4 All your available devices

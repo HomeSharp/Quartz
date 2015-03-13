@@ -302,7 +302,6 @@ module.exports = function(app) {
 							access_token = response_chunk.access_token;
 
 							AM.saveCredentials(response_chunk, req.session.user.email, function() {
-
 							});
 						});
 
