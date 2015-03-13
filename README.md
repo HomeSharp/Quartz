@@ -61,3 +61,4 @@ The views for client side, written in Jade.
 
 ## Suggestions for continued developement
 * Auto-keys for Telldus Live
+* /home should act as a dashboard for all the connected devices
