@@ -53,10 +53,9 @@ function addEvent(element, event_name, func) {
 // Add the clicked device to the devicelist to be tracked by HomeSharp
 function addDevice(event)
 {
-	/*
 	var that = this;
 	$.ajax({
-		url: "/brand/telldus/addDeviceToDb",
+		url: "/brand/netatmo/addDeviceToDb",
 		type: "POST",
 		data: {deviceId: event.target.id},
 		success: function(data){
@@ -66,7 +65,6 @@ function addDevice(event)
 			console.log(jqXHR.responseText+' :: '+jqXHR.statusText);
 		}
 	});
-	*/
 }
 
 // Remove the clicked device from the devicelist tracked by HomeSharp

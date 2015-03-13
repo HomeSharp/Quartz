@@ -150,6 +150,33 @@ exports.delAllRecords = function(callback)
 
 /* Actions for Netatmo */
 
+exports.addNetatmoDeviceToUser = function(email, device, callback) {
+	// Save a Telldus device to the database, to be tracked by HomeSharp
+	try
+	{
+		accounts.findOne({email:email}, function(e, o){
+
+			if(o.NetatmoDeviceList == "" || o.NetatmoDeviceList == null) {
+				o.NetatmoDeviceList = JSON.parse('{ "devices": []}');
+			}
+
+			o.NetatmoDeviceList.devices.push(device);
+
+			accounts.save(o, {safe: true}, function(err) {
+				console.log("Netatmo device saved to databse.");
+			});
+
+			callback();
+			
+		});
+	}
+	catch (error)
+	{
+		console.log(error);
+	}
+
+}
+
 exports.CheckUserNetatmoToken = function(email, callback)
 {
 	try {
@@ -175,6 +202,20 @@ exports.CheckUserNetatmoToken = function(email, callback)
 		});
 	} catch (e) {
 		console.log(e);
+	}
+}
+
+exports.getUserPickedNetatmoDevices = function(email, callback) {
+	// Retrieve a list of the devices the user has chosen HomeSharp to track
+	try
+	{
+		accounts.findOne({email:email}, function(e, o){
+			callback(o.NetatmoDeviceList);
+		});
+	}
+	catch (error)
+	{
+		console.log(error);
 	}
 }
 

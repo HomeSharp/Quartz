@@ -26,9 +26,8 @@ block content
 
 						ul#allDevicesList.bg-info
 							each device in devices
-								- each module in device
-									li
-										<a href='#' class='addDevice' id='#{module.deviceId}'>#{module.moduleName}</a>
+								li
+									<a href='#' class='addDevice' id='#{device.deviceId}'>#{device.moduleName}</a>
 					div.col-md-4
 						p.text-center
 							span.glyphicon.glyphicon-arrow-left.text-center &nbsp;
@@ -38,7 +37,9 @@ block content
 						h4 Your selected devices
 
 						ul#userPickedDevicesList.bg-success
-							li
+							each device in pickedDevices
+								li
+									<a href='#' class='removeDevice' id='#{device.deviceId}'>#{device.moduleName}</a>
 
 
 					p &nbsp;

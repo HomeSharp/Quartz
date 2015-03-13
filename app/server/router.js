@@ -218,6 +218,7 @@ module.exports = function(app) {
 		res.redirect('/');
 	});
 
+
 // For connecting and handling of Netatmo apps //
 
 	app.get('/brand/netatmo', function(req, res) {
@@ -253,12 +254,10 @@ module.exports = function(app) {
 						IM.RequestNetatmoDeviceList(access_token, function(chunk) {
 
 							chunk = JSON.parse(chunk);
-							console.log(chunk);
-
-							/*
 							var deviceIds = [];
 
-							AM.getUserPickedTelldusDevices(req.session.user.email, function(pickedDevicesList) {
+							// Retrieving the devices the user has chosen to track, if any at all
+							AM.getUserPickedNetatmoDevices(req.session.user.email, function(pickedDevicesList) {
 
 								if(pickedDevicesList == "" || pickedDevicesList == undefined) {
 									pickedDevicesList = JSON.parse('{"devices": []}');
@@ -286,18 +285,13 @@ module.exports = function(app) {
 									addToList = true;
 								}
 
-								// chunkSyntaxed = IM.syntaxHighlight(chunk);
-
-								req.session.user.TelldusDevices = newList.devices;
-								*/
-
-
-							//AM.SaveDeviceListDB('Netatmo', req.session.user.email, chunk);
-							res.render('netatmo', {  title: 'Your Netatmo devices', state_token: csrf_token, NetatmoConnected: true, devices: chunk });
+								console.log(usersPickedList);
+								console.log(newList.devices);
+								req.session.user.NetatmoDevices = newList.devices;
+								res.render('netatmo', {  title: 'Your Netatmo devices', state_token: csrf_token, NetatmoConnected: true, devices: newList.devices, pickedDevices: usersPickedList.devices });
+							});
 						});
-
 					}
-
 					// If the token is outdated, a refresh will be done
 					else if (o == "old")
 					{
@@ -370,6 +364,30 @@ module.exports = function(app) {
 				}
 			});
 	});
+
+	app.post('/brand/netatmo/addDeviceToDb', function(req, res){
+		// Function for adding a device to the database, this device is one that the user wishes to be tracked by HomeSharp
+		var deviceId = req.body['deviceId'];
+		var devicesData = req.session.user.NetatmoDevices;
+
+		for (var i = 0; i < devicesData.length; i++){
+		  if (devicesData[i].deviceId == deviceId){
+		     device = devicesData[i];
+		  }
+		}
+
+		AM.addNetatmoDeviceToUser(req.session.user.email, device, function(e, o){
+			if (e)
+			{
+				res.send('error-adding-device-to-db', 400);
+			}
+			else
+			{
+				res.send('ok', 200);
+			}
+		});
+	});
+
 
 	// For connecting and handling of Telldus apps //
 
