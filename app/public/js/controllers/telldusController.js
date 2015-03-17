@@ -21,6 +21,44 @@ function TelldusController()
 			}
 		});
 	}
+
+	// Handle turn off button on Telldus devices
+	$('.btn-turnOnTelldusDevice').click(function(){ that.turnOnTelldus(); });
+
+	this.turnOnTelldus = function()
+	{
+		var that = this;
+		$.ajax({
+			url: "/brand/telldus/turnOnDevice",
+			type: "POST",
+			data: {deviceId: event.target.id},
+			success: function(data){
+				window.location.href = '/brand/telldus/';
+			},
+			error: function(jqXHR){
+				console.log(jqXHR.responseText+' :: '+jqXHR.statusText);
+			}
+		});
+	}
+
+	// Handle turnOn button on Telldus devices
+	$('.btn-turnOffTelldusDevice').click(function(event){ that.turnOffTelldus(event); });
+
+	this.turnOffTelldus = function(event)
+	{
+		var that = this;
+		$.ajax({
+			url: "/brand/telldus/turnOffDevice",
+			type: "POST",
+			data: {deviceId : event.target.id},
+			success: function(data){
+				window.location.href = '/brand/telldus/';
+			},
+			error: function(jqXHR){
+				console.log(jqXHR.responseText+' :: '+jqXHR.statusText);
+			}
+		});
+	}
 }
 
 // Function for handling user clicks and the actions related to it

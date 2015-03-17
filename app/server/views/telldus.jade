@@ -15,7 +15,6 @@ block content
 						p
 							button#btn-unlinkTelldus.btn.btn-danger.btn-xs Unlink account
 
-
 				div.row
 					div.col-md-12
 						h2 Current stats
@@ -28,6 +27,10 @@ block content
 								p
 									strong #{meassure.type}
 								p.small #{meassure.value}&nbsp;#{meassure.unit}
+
+							if device.deviceType == "Switch" || device.deviceType == "Dimmer"
+								|<button id='#{device.deviceId}' class='btn btn-default btn-xs btn-turnOnTelldusDevice'>On</button>
+								|<button id='#{device.deviceId}' class='btn btn-default btn-xs btn-turnOffTelldusDevice'>Off</button>
 
 				div.row
 					div.col-md-12

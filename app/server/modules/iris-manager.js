@@ -77,6 +77,79 @@ exports.RequestTelldusDeviceList = function(keys, callback)
 
 }
 
+
+exports.TurnOnTelldusDevice = function(keys, deviceId, callback)
+{
+  // An object of options to indicate where to post to
+  var post_options = {
+      host: config.irisConfigValues().domain,
+      port: config.irisConfigValues().port,
+      path: '/api/Command/turnOn?deviceId=' + deviceId,
+      method: 'POST',
+      headers: {
+          'publickey': keys.publicKey,
+          'privatekey': keys.privateKey,
+          'access_token': keys.token,
+          'tokensecret': keys.tokenSecret,
+          'brand': 'Telldus'
+      }
+  };
+
+  // Set up the request
+  var get_req = http.request(post_options, function(res) {
+      res.setEncoding('utf8');
+
+      res.on('data', function (response) {
+          if(res.statusCode == 200) {
+            console.log(response);
+            callback(response);
+          } else {
+            console.log("Some failiure occured.");
+          }
+      });
+  });
+
+  // post the data
+  get_req.end();
+
+}
+
+exports.TurnOffTelldusDevice = function(keys, deviceId, callback)
+{
+  // An object of options to indicate where to post to
+  var post_options = {
+      host: config.irisConfigValues().domain,
+      port: config.irisConfigValues().port,
+      path: '/api/Command/turnOff?deviceId=' + deviceId,
+      method: 'POST',
+      headers: {
+          'publickey': keys.publicKey,
+          'privatekey': keys.privateKey,
+          'access_token': keys.token,
+          'tokensecret': keys.tokenSecret,
+          'brand': 'Telldus'
+      }
+  };
+
+  // Set up the request
+  var get_req = http.request(post_options, function(res) {
+      res.setEncoding('utf8');
+
+      res.on('data', function (response) {
+          if(res.statusCode == 200) {
+            console.log(response);
+            callback(response);
+          } else {
+            console.log("Some failiure occured.");
+          }
+      });
+  });
+
+  // post the data
+  get_req.end();
+
+}
+
 /* Other functions */
 
 exports.syntaxHighlight = function(json) {

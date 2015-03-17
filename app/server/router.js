@@ -422,6 +422,9 @@ module.exports = function(app) {
 
 						chunk = JSON.parse(chunk);
 
+			            // console.log(chunk);
+
+
 						// Show devices for user in UI
 						// Filter deviceList, get only devices which is not registered to users mongoDb
 
@@ -455,6 +458,7 @@ module.exports = function(app) {
 								addToList = true;
 							}
 
+							console.log(usersPickedList.devices);
 							// chunkSyntaxed = IM.syntaxHighlight(chunk);
 
 							req.session.user.TelldusDevices = newList.devices;
@@ -540,6 +544,33 @@ module.exports = function(app) {
 				res.send('ok', 200);
 			}
 		});
+	});
+
+	app.post('/brand/telldus/turnOnDevice', function(req, res) {
+		AM.CheckUserTelldusKeys(req.session.user.email, function(o, access_token) 
+		{
+			if (o === true) 
+			{
+				IM.TurnOnTelldusDevice(access_token, req.body.deviceId, function(chunk)
+				{
+					chunk = JSON.parse(chunk);
+				});
+			}
+		});
+	});
+
+	app.post('/brand/telldus/turnOffDevice', function(req, res) {
+		AM.CheckUserTelldusKeys(req.session.user.email, function(o, access_token) 
+		{
+			if (o === true) 
+			{
+				IM.TurnOffTelldusDevice(access_token, req.body.deviceId, function(chunk)
+				{
+					chunk = JSON.parse(chunk);
+				});
+			}
+		});
+
 	});
 
 	// This functionality for retrieving keys directly from Telldus has been cancelled for now, but devs. are welcome to finish it.
