@@ -101,7 +101,7 @@ exports.TurnOnTelldusDevice = function(keys, deviceId, callback)
 
       res.on('data', function (response) {
           if(res.statusCode == 200) {
-            console.log(response);
+            // console.log(response);
             callback(response);
           } else {
             console.log("Some failiure occured.");
@@ -137,7 +137,7 @@ exports.TurnOffTelldusDevice = function(keys, deviceId, callback)
 
       res.on('data', function (response) {
           if(res.statusCode == 200) {
-            console.log(response);
+            // console.log(response);
             callback(response);
           } else {
             console.log("Some failiure occured.");

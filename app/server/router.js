@@ -554,6 +554,7 @@ module.exports = function(app) {
 				IM.TurnOnTelldusDevice(access_token, req.body.deviceId, function(chunk)
 				{
 					chunk = JSON.parse(chunk);
+					res.send('success', 200);
 				});
 			}
 		});
@@ -567,6 +568,7 @@ module.exports = function(app) {
 				IM.TurnOffTelldusDevice(access_token, req.body.deviceId, function(chunk)
 				{
 					chunk = JSON.parse(chunk);
+					res.send('success', 200);
 				});
 			}
 		});

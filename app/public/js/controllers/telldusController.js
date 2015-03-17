@@ -14,7 +14,7 @@ function TelldusController()
 			type: "POST",
 			data: {unlink : true},
 			success: function(data){
-				window.location.href = '/brand/telldus/';
+				// window.location.href = '/brand/telldus/';
 			},
 			error: function(jqXHR){
 				console.log(jqXHR.responseText+' :: '+jqXHR.statusText);
@@ -23,9 +23,9 @@ function TelldusController()
 	}
 
 	// Handle turn off button on Telldus devices
-	$('.btn-turnOnTelldusDevice').click(function(){ that.turnOnTelldus(); });
+	$('.btn-turnOnTelldusDevice').click(function(event){ that.turnOnTelldus(event); });
 
-	this.turnOnTelldus = function()
+	this.turnOnTelldus = function(event)
 	{
 		var that = this;
 		$.ajax({
@@ -33,7 +33,7 @@ function TelldusController()
 			type: "POST",
 			data: {deviceId: event.target.id},
 			success: function(data){
-				window.location.href = '/brand/telldus/';
+				// window.location.href = '/brand/telldus/';
 			},
 			error: function(jqXHR){
 				console.log(jqXHR.responseText+' :: '+jqXHR.statusText);
@@ -52,7 +52,7 @@ function TelldusController()
 			type: "POST",
 			data: {deviceId : event.target.id},
 			success: function(data){
-				window.location.href = '/brand/telldus/';
+				// window.location.href = '/brand/telldus/';
 			},
 			error: function(jqXHR){
 				console.log(jqXHR.responseText+' :: '+jqXHR.statusText);
